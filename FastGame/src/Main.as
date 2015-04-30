@@ -26,10 +26,10 @@ package
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			// Adds the background object:
-			drawableController.addDrawable(new Background());
-			
 			drawableController = new DrawableController(stage);
+			drawableController.addDrawable(new Background());
 			drawableController.addDrawable(new Enemy(10));
+			
 			stage.addEventListener(Event.ENTER_FRAME, update);
 		}
 		

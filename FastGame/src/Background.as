@@ -11,7 +11,7 @@ package
 			addChild(new AssetTestBackground_1());
 		}
 		
-		public override function move()
+		public override function move():void
 		{
 			
 		}
