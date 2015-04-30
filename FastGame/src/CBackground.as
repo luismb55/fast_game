@@ -1,6 +1,5 @@
-package 
+package
 {
-	import flash.display.MovieClip;
 	/**
 	 * ...
 	 * @author 3Elephants
@@ -11,25 +10,24 @@ package
 		public static const BACKGROUND_TYPE_GROUND:uint = 0;
 		public static const BACKGROUND_TYPE_WATER:uint = 1;
 		
-		public function CBackground() 
+		public function CBackground(s:Stage)
 		{
-			graphic = new MovieClip();
+			graphic = new graphics_bg_ground();
 			super();
 		}
 		
 		public override function init():void
 		{
-			graphic.mask = new graphics_bg_mask();
-			
-			ChangeBackgroundGraphic(0);
+			graphic.x = (mainStage.width - graphic.width) * 0.5;
+			graphic.y = (mainStage.height - graphic.height) * 0.5;
 		}
 		
 		public override function move():void
 		{
 			graphic.y += BACKGROUND_VSPEED;
 			
-			if (graphic.y > (graphic.mask.height * 2.0)) {
-				ChangeBackgroundGraphic(1);
+			if (graphic.y > (mainStage.stageHeight * 2.0)) {
+				trace("HEY!!");
 			}
 		}
 		

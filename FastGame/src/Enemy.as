@@ -1,29 +1,15 @@
 package 
 {
+	import flash.display.Stage;
+	
 	public class Enemy extends Drawable
 	{
-		public function Enemy(x:int) 
+		public function Enemy(x:int, s:Stage) 
 		{
-			posX = x;
-			posY = 10;
-			
-			graphic = new TestEnemy();
-			
-			super();
+			super(s);
+			position.x = x;
+			position.y = 0;
+			direction.y = 2;
 		}
-		
-		 
-		public override function move():void
-		{
-			posY += 1;
-			
-			graphic.x = posX;
-			graphic.y = posY;
-			
-			trace(posX.toString() + ' x ' + posY.toString());
-			
-			super.move();
-		}
-
 	}
 }

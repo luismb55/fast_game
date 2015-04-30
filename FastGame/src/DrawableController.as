@@ -1,40 +1,62 @@
-package 
+package
 {
 	import flash.display.Stage;
+	import flash.events.Event;
+	
 	public class DrawableController
 	{
-		private var stage:Stage;
+		private var gameStage:Stage;
 		private var drawables:Vector.<Drawable> = new Vector.<Drawable>();
 		
-		public function DrawableController(s:Stage) 
+		public function DrawableController(s:Stage)
 		{
-			stage = s;
+			gameStage = s;
+			gameStage.addEventListener(Event.ENTER_FRAME, update);
 		}
 		
-		public function initAll():void
+		static private function countDrawables(v:Vector.<Drawable>, c:Class):int
 		{
-			drawables.forEach(initDrawable);
+			var result:int = 0;
+			for (var i:int = 0; i < v.length; i++)
+			{
+				if (v[i] is c)
+				{
+					result++;
+				}
+			}
+			return result;
 		}
 		
-		public function moveAll():void
+		protected function countEnemies():int
 		{
-			drawables.forEach(moveDrawable, null);
+			return countDrawables(drawables, Enemy);
 		}
 		
-		static protected function initDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void
+		private function update(e:Event):void
 		{
-			item.init();
-		}
-		
-		static protected function moveDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void
-		{
-			item.move();
+			if (countEnemies() < 6)
+			{
+				addDrawable(new Enemy0(drawables.length, gameStage));
+			}
+			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
+				{
+					x.move();
+				});
 		}
 		
 		public function addDrawable(d:Drawable):void
 		{
 			drawables.push(d);
-			stage.addChild(d);
+			gameStage.addChild(d);
 		}
+		
+		public function init():void
+		{
+			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
+				{
+					x.init();
+				});
+		}
+	
 	}
 }
