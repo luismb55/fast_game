@@ -14,6 +14,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
+		protected var dc:DrawableController = new DrawableController();
 		
 		public function Main() 
 		{
@@ -27,6 +28,9 @@ package
 			// ejemplo punto de entrada:
 			addChild(new AssetTestBackground());
 			
+			stage.addEventListener(Event.ENTER_FRAME, update);
+			
+			
 			// new to AIR? please read *carefully* the readme.txt files!
 		}
 		
@@ -36,6 +40,10 @@ package
 			//NativeApplication.nativeApplication.exit();
 		}
 		
+		private function update(e:Event):void
+		{
+			
+		}
 	}
 	
 }
