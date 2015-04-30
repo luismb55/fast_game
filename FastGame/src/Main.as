@@ -26,7 +26,6 @@ package
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			drawableController = new DrawableController(stage);
-			init();
 		}
 		
 		private function deactivate(e:Event):void 
