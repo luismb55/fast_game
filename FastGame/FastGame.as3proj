@@ -6,8 +6,8 @@
     <movie input="" />
     <movie path="bin\FastGame.swf" />
     <movie fps="30" />
-    <movie width="480" />
-    <movie height="762" />
+    <movie width="640" />
+    <movie height="960" />
     <movie version="17" />
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />

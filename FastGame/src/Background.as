@@ -17,9 +17,10 @@ package
 			BACKGROUND_ZONES["WATER_ZONE"] = graphics_bg_water;
 		}
 		
-		protected var backgroundCanvas:MovieClip;
-		protected var backgroundIndex:int;
 		protected var backgroundSequence:Array;
+		protected var backgroundSequenceIndex:int;
+		
+		private var vMovement:Number;
 		
 		public function Background(s:Stage)
 		{
@@ -27,11 +28,10 @@ package
 			backgroundSequence.push(BACKGROUND_ZONES["GROUND_ZONE"]);
 			backgroundSequence.push(BACKGROUND_ZONES["WATER_ZONE"]);
 
-			backgroundIndex = 0;
-			graphic = new MovieClip();
+			backgroundSequenceIndex = 0;
+			vMovement = 0.0;
 			
-			backgroundCanvas = new backgroundSequence[backgroundIndex]();
-			addChild(backgroundCanvas);
+			graphic = new MovieClip();
 			
 			super(s);
 			
@@ -40,32 +40,67 @@ package
 		
 		public override function init():void
 		{
-			backgroundCanvas.x = gameStage.stageWidth * 0.5;
-			backgroundCanvas.y = gameStage.stageHeight;
+			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
+			graphic.getChildAt(0).x = gameStage.stageWidth * 0.5;
+			graphic.getChildAt(0).y = gameStage.stageHeight;
 		}
 		
 		public override function move():void
 		{
-			backgroundCanvas.y += BACKGROUND_VSPEED;
+			var numTiles:int = graphic.numChildren;
 			
-			if (backgroundCanvas.y > (gameStage.stageHeight * 2.0)) {
-				ChangeBackgroundZone();
+			if (numTiles >= 1) graphic.getChildAt(0).y += BACKGROUND_VSPEED;
+			if (numTiles == 2) graphic.getChildAt(1).y += BACKGROUND_VSPEED;
+			
+			if (numTiles == 1) {
+				if (graphic.getChildAt(0).y > (gameStage.stageHeight * 2.0)) {
+					IncrementBackgroundIndex();
+					AddNextBackgroundTile();
+				}
+			} else if (numTiles == 2) {
+				if (graphic.getChildAt(1).y > gameStage.stageHeight) {
+					IncrementBackgroundIndex();
+					RemovePreviousBackgroundTile();
+					AddNextBackgroundTile();
+				}
 			}
 		}
 		
-		protected function ChangeBackgroundZone():void
+		protected function IncrementBackgroundIndex():void
 		{
-			backgroundIndex++;
+			backgroundSequenceIndex++;
 			
-			if (backgroundIndex >= backgroundSequence.length) {
-				backgroundIndex = 0;
+			if (backgroundSequenceIndex >= backgroundSequence.length) {
+				backgroundSequenceIndex = 0;
 			}
+		}
+		
+		protected function AddNextBackgroundTile():void
+		{
+			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
+			graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
+			graphic.getChildAt(1).y = 0.0;
+		}
+		
+		protected function RemovePreviousBackgroundTile():void
+		{
+			if (graphic.numChildren == 2) {
+				graphic.removeChildAt(0);
+			}
+		}
+		
+		protected function ChangeBackground():void
+		{
+			if (backgroundSequenceIndex >= backgroundSequence.length) {
+				backgroundSequenceIndex = 0;
+			}
+
+			/*if(graphic.numChildren == 2) {
+				graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
+				graphic.getChildAt(1).y = 0;
+			}*/
 			
-			removeChild(backgroundCanvas);
-			backgroundCanvas = new backgroundSequence[backgroundIndex]();
-			backgroundCanvas.x = gameStage.stageWidth * 0.5;
-			backgroundCanvas.y = 0;
-			addChild(backgroundCanvas);
+			backgroundSequenceIndex++;
 			
 			/*removeChild(graphic);
 			
