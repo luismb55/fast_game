@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Stage;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	
 	public class DrawableController
 	{
@@ -61,6 +62,6 @@ package
 					x.init();
 				});
 		}
-	
+		
 	}
 }

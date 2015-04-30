@@ -6,8 +6,8 @@
     <movie input="" />
     <movie path="bin\FastGame.swf" />
     <movie fps="30" />
-    <movie width="640" />
-    <movie height="960" />
+    <movie width="480" />
+    <movie height="762" />
     <movie version="17" />
     <movie minorVersion="0" />
     <movie platform="AIR Mobile" />
@@ -49,11 +49,10 @@
   <!-- SWC Include Libraries -->
   <includeLibraries>
     <element path="lib\assets_test.swc" />
-    <element path="lib\assets.swc" />
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <!-- example: <element path="..." /> -->
+    <element path="lib\assets.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

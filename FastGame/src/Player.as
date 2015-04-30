@@ -20,6 +20,16 @@ package
 			direction.y = (gameStage.mouseY - position.y) / 10;
 			super.move();
 		}
+		
+		public function getPosition():Point
+		{
+			return this.position;
+		}
+		
+		public function getDirection():Point
+		{
+			return this.direction;
+		}
 	}
 
 }
