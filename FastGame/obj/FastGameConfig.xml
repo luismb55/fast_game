@@ -37,6 +37,7 @@
     </source-path>
     <include-libraries>
       <library>C:\Users\Abadosa\Desktop\fast_game\FastGame\lib\assets_test.swc</library>
+      <library>C:\Users\Abadosa\Desktop\fast_game\FastGame\lib\assets.swc</library>
     </include-libraries>
   </compiler>
   <file-specs>

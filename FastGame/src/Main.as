@@ -21,14 +21,17 @@ package
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			stage.addEventListener(Event.DEACTIVATE, deactivate);
+			stage.frameRate = 30.0;
 			
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			// Adds the background object:
 			drawableController = new DrawableController(stage);
-			drawableController.addDrawable(new Background());
+			drawableController.addDrawable(new CBackground());
 			drawableController.addDrawable(new Enemy(10));
+			
+			init();
 			
 			stage.addEventListener(Event.ENTER_FRAME, update);
 		}
@@ -37,6 +40,11 @@ package
 		{
 			// make sure the app behaves well (or exits) when in background
 			//NativeApplication.nativeApplication.exit();
+		}
+		
+		private function init(e:Event = null):void
+		{
+			drawableController.initAll();
 		}
 		
 		private function update(e:Event):void

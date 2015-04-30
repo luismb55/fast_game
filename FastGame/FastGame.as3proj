@@ -49,6 +49,7 @@
   <!-- SWC Include Libraries -->
   <includeLibraries>
     <element path="lib\assets_test.swc" />
+    <element path="lib\assets.swc" />
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>

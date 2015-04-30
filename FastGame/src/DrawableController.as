@@ -11,9 +11,19 @@ package
 			stage = s;
 		}
 		
+		public function initAll():void
+		{
+			drawables.forEach(initDrawable);
+		}
+		
 		public function moveAll():void
 		{
 			drawables.forEach(moveDrawable, null);
+		}
+		
+		static protected function initDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void
+		{
+			item.init();
 		}
 		
 		static protected function moveDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void

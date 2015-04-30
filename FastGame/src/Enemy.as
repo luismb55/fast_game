@@ -7,7 +7,9 @@ package
 			posX = x;
 			posY = 10;
 			
-			graphic = new AssetTestBackground_1();
+			graphic = new TestEnemy();
+			
+			super();
 		}
 		
 		 
