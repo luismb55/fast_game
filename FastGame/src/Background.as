@@ -4,7 +4,7 @@ package
 	 * ...
 	 * @author 3Elephants
 	 */
-	public class Background 
+	public class Background extends Drawable
 	{
 		
 		public function Background() 
