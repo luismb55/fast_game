@@ -26,7 +26,7 @@ package
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			// ejemplo punto de entrada:
-			addChild(new AssetTestBackground());
+			addChild(new AssetTestBackground_1());
 			
 			stage.addEventListener(Event.ENTER_FRAME, update);
 			
