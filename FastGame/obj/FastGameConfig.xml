@@ -35,6 +35,9 @@
       <path-element>C:\Users\Abadosa\Desktop\fast_game\FastGame\src</path-element>
       <path-element>C:\Flash Develop\Library\AS3\classes</path-element>
     </source-path>
+    <include-libraries>
+      <library>C:\Users\Abadosa\Desktop\fast_game\FastGame\lib\assets_test.swc</library>
+    </include-libraries>
   </compiler>
   <file-specs>
     <path-element>C:\Users\Abadosa\Desktop\fast_game\FastGame\src\Main.as</path-element>

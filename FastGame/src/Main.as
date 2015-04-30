@@ -24,7 +24,8 @@ package
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
-			// punto de entrado, chamo
+			// ejemplo punto de entrada:
+			addChild(new AssetTestBackground());
 			
 			// new to AIR? please read *carefully* the readme.txt files!
 		}
