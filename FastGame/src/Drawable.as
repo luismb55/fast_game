@@ -7,12 +7,14 @@ package
 	
 	public class Drawable extends Sprite
 	{
-		protected var position:Point = new Point(0,0);
-		protected var direction:Point = new Point(0,0);
+		protected var position:Point = new Point(0, 0);
+		protected var direction:Point = new Point(0, 0);
 		protected var graphic:MovieClip;
+		protected var gameStage:Stage;
 		
-		public function Drawable()
+		public function Drawable(s:Stage)
 		{
+			gameStage = s;
 			addChild(graphic);
 		}
 		
@@ -27,11 +29,6 @@ package
 			graphic.x = position.x;
 			graphic.y = position.y;
 			trace(position.x.toString() + ', ' + position.y.toString());
-		}
-		
-		public function get mainStage():Stage
-		{
-			return parent.stage;
 		}
 	}
 }

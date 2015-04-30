@@ -6,7 +6,7 @@ package
 	{
 		public function Enemy(x:int, s:Stage) 
 		{
-			super();
+			super(s);
 			position.x = x;
 			position.y = 0;
 			direction.y = 2;

@@ -34,11 +34,6 @@ package
 			// make sure the app behaves well (or exits) when in background
 			//NativeApplication.nativeApplication.exit();
 		}
-
-private function init(e:Event = null):void
-		{
-			drawableController.initAll();
-		}
 	}
 	
 }
