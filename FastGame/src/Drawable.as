@@ -2,6 +2,7 @@ package
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.geom.Point;
 	
 	public class Drawable extends Sprite
@@ -15,12 +16,22 @@ package
 			addChild(graphic);
 		}
 		
+		public function init():void
+		{
+			//trace('init drawable');
+		}
+		
 		public function move():void
 		{
 			position = position.add(direction);
 			graphic.x = position.x;
 			graphic.y = position.y;
 			trace(position.x.toString() + ', ' + position.y.toString());
+		}
+		
+		public function get mainStage():Stage
+		{
+			return parent.stage;
 		}
 	}
 }

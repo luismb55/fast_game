@@ -1,4 +1,4 @@
-package
+package 
 {
 	import flash.display.Stage;
 	import flash.events.Event;
@@ -52,5 +52,15 @@ package
 			drawables.push(d);
 			stage.addChild(d);
 		}
+
+public function initAll():void
+		{
+			drawables.forEach(initDrawable);
+		}
+static protected function initDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void
+		{
+			item.init();
+		}
+		
 	}
 }
