@@ -1,27 +1,30 @@
 package 
 {
+	import flash.display.Stage;
 	public class DrawableController
 	{
+		private var stage:Stage;
 		private var drawables:Vector.<Drawable> = new Vector.<Drawable>();
 		
-		public function DrawableController() 
+		public function DrawableController(s:Stage) 
 		{
-			
+			stage = s;
 		}
 		
-		protected function moveAll():void
+		public function moveAll():void
 		{
 			drawables.forEach(moveDrawable, null);
 		}
 		
-		static protected function moveDrawable(d:Drawable):void
+		static protected function moveDrawable(item:Drawable, index:int, vector:Vector.<Drawable>):void
 		{
-			d.move();
+			item.move();
 		}
 		
-		public function addDrawable(d:Drawable)
+		public function addDrawable(d:Drawable):void
 		{
 			drawables.push(d);
+			stage.addChild(d);
 		}
 	}
 }

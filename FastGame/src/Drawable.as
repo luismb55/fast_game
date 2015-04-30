@@ -6,12 +6,12 @@ package
 	
 	public class Drawable extends Sprite
 	{
-		private var posX:int;
-		private var posY:int;
+		protected var posX:int;
+		protected var posY:int;
 		
-		private var direction:Point;
+		protected var direction:Point;
 		
-		private var graphic:MovieClip;
+		protected var graphic:MovieClip;
 		
 		public function Drawable()
 		{

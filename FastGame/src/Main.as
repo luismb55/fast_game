@@ -14,7 +14,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		protected var drawableController:DrawableController = new DrawableController();
+		protected var drawableController:DrawableController;
 		
 		public function Main() 
 		{
@@ -28,6 +28,8 @@ package
 			// ejemplo punto de entrada:
 			addChild(new AssetTestBackground());
 			
+			drawableController = new DrawableController(stage);
+			drawableController.addDrawable(new Enemy(10));
 			stage.addEventListener(Event.ENTER_FRAME, update);
 		}
 		
