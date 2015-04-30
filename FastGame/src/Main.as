@@ -15,6 +15,7 @@ package
 	public class Main extends Sprite 
 	{
 		protected var drawableController:DrawableController;
+		protected var player:Player;
 		
 		public function Main() 
 		{
@@ -26,6 +27,11 @@ package
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
 			drawableController = new DrawableController(stage);
+			
+			player = new Player(stage);
+						
+			drawableController.addDrawable(player);
+			
 			init();
 		}
 		

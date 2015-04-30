@@ -28,7 +28,7 @@ package
 			position = position.add(direction);
 			graphic.x = position.x;
 			graphic.y = position.y;
-			trace(position.x.toString() + ', ' + position.y.toString());
+			//trace(position.x.toString() + ', ' + position.y.toString());
 		}
 	}
 }
