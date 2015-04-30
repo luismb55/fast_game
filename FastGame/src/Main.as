@@ -14,7 +14,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		protected var drawableController:DrawableController = new DrawableController();
+		protected var drawableController:DrawableController;
 		
 		public function Main() 
 		{
@@ -28,6 +28,8 @@ package
 			// Adds the background object:
 			drawableController.addDrawable(new Background());
 			
+			drawableController = new DrawableController(stage);
+			drawableController.addDrawable(new Enemy(10));
 			stage.addEventListener(Event.ENTER_FRAME, update);
 		}
 		
