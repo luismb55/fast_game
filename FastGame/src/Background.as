@@ -4,10 +4,10 @@ package
 	 * ...
 	 * @author 3Elephants
 	 */
-	public class CBackground 
+	public class Background 
 	{
 		
-		public function CBackground() 
+		public function Background() 
 		{
 			
 		}
