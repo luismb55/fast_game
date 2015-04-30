@@ -6,8 +6,8 @@ package
 		{
 			posX = x;
 			posY = 10;
-			
 			graphic = new AssetTestBackground();
+			super();
 		}
 		
 		 

@@ -15,12 +15,12 @@ package
 		
 		public function Drawable()
 		{
-			
+			addChild(graphic);
 		}
 		
 		public function move():void
 		{
-			trace('moving drawable');
+			//trace('moving drawable');
 		}
 	}
 
