@@ -14,7 +14,7 @@ package
 	 */
 	public class Main extends Sprite 
 	{
-		protected var dc:DrawableController = new DrawableController();
+		protected var drawableController:DrawableController = new DrawableController();
 		
 		public function Main() 
 		{
@@ -29,9 +29,6 @@ package
 			addChild(new AssetTestBackground_1());
 			
 			stage.addEventListener(Event.ENTER_FRAME, update);
-			
-			
-			// new to AIR? please read *carefully* the readme.txt files!
 		}
 		
 		private function deactivate(e:Event):void 
@@ -42,7 +39,7 @@ package
 		
 		private function update(e:Event):void
 		{
-			
+			drawableController.moveAll();
 		}
 	}
 	

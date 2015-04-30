@@ -2,6 +2,7 @@ package
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
+	import flash.geom.Point;
 	
 	public class Drawable extends Sprite
 	{
@@ -17,9 +18,9 @@ package
 			
 		}
 		
-		public function move()
+		public function move():void
 		{
-			
+			trace('moving drawable');
 		}
 	}
 
