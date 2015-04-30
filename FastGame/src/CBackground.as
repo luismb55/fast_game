@@ -1,32 +1,57 @@
 package 
 {
+	import flash.display.MovieClip;
 	/**
 	 * ...
 	 * @author 3Elephants
 	 */
 	public class CBackground extends Drawable
 	{
-		protected static const BACKGROUND_PIECE_SPEED:Number = 5;
+		public static const BACKGROUND_VSPEED:Number = 5;
+		public static const BACKGROUND_TYPE_GROUND:uint = 0;
+		public static const BACKGROUND_TYPE_WATER:uint = 1;
 		
 		public function CBackground() 
 		{
-			graphic = new graphics_bg_ground();
+			graphic = new MovieClip();
 			super();
 		}
 		
 		public override function init():void
 		{
-			graphic.x = (mainStage.width - graphic.width) * 0.5;
-			graphic.y = (mainStage.height - graphic.height) * 0.5;
+			graphic.mask = new graphics_bg_mask();
+			
+			ChangeBackgroundGraphic(0);
 		}
 		
 		public override function move():void
 		{
-			graphic.y += BACKGROUND_PIECE_SPEED;
+			graphic.y += BACKGROUND_VSPEED;
 			
-			if (graphic.y > (mainStage.stageHeight * 2.0)) {
-				trace("HEY!!");
+			if (graphic.y > (graphic.mask.height * 2.0)) {
+				ChangeBackgroundGraphic(1);
 			}
+		}
+		
+		protected function ChangeBackgroundGraphic(bgType:uint):void
+		{
+			switch(bgType) {
+				case BACKGROUND_TYPE_GROUND:
+					graphic = new graphics_bg_ground();
+					break;
+							
+				case BACKGROUND_TYPE_WATER:
+					graphic = new graphics_bg_water();
+					break;
+					
+				default:
+					graphic = new graphics_bg_ground();
+			}
+			
+			// TO-DO: ground transitions
+			
+			graphic.x = mainStage.stageWidth * 0.5;
+			graphic.y = mainStage.stageHeight;
 		}
 	}
 }
