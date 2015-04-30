@@ -25,8 +25,8 @@ package
 			// touch or gesture?
 			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
 			
-			// ejemplo punto de entrada:
-			addChild(new AssetTestBackground_1());
+			// Adds the background object:
+			drawableController.addDrawable(new Background());
 			
 			stage.addEventListener(Event.ENTER_FRAME, update);
 		}

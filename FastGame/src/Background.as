@@ -8,7 +8,7 @@ package
 	{
 		public function Background() 
 		{
-			
+			addChild(new AssetTestBackground_1());
 		}
 		
 		public override function move()
