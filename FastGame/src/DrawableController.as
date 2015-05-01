@@ -55,7 +55,7 @@ package
 		
 		public function init():void
 		{
-			addDrawable(new Background(gameStage));
+			addDrawable(new BackgroundController(gameStage));
 			
 			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
 				{

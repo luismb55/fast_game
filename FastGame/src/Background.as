@@ -1,127 +1,59 @@
-package
+package 
 {
 	import flash.display.MovieClip;
-	import flash.display.Stage;
-	import flash.utils.Dictionary;
 	/**
 	 * ...
-	 * @author 3Elephants
+	 * @author ...
 	 */
-	public class Background extends Drawable
+	public class Background 
 	{
-		public static const BACKGROUND_VSPEED:Number = 5;
+		protected var zoneName:String;
+		protected var zoneData:MovieClip;
 		
-		protected static const BACKGROUND_ZONES:Dictionary = new Dictionary();
+		public function Background(zoneName:String, zoneData:MovieClip) 
 		{
-			BACKGROUND_ZONES["GROUND_ZONE"] = graphics_bg_ground;
-			BACKGROUND_ZONES["WATER_ZONE"] = graphics_bg_water;
+			this.zoneName = zoneName;
+			this.zoneData = zoneData;
 		}
 		
-		protected var backgroundSequence:Array;
-		protected var backgroundSequenceIndex:int;
-		
-		private var vMovement:Number;
-		
-		public function Background(s:Stage)
+		public function get name():String
 		{
-			backgroundSequence = new Array();
-			backgroundSequence.push(BACKGROUND_ZONES["GROUND_ZONE"]);
-			backgroundSequence.push(BACKGROUND_ZONES["WATER_ZONE"]);
-
-			backgroundSequenceIndex = 0;
-			vMovement = 0.0;
-			
-			graphic = new MovieClip();
-			
-			super(s);
-			
-			init();
+			return zoneName;
 		}
 		
-		public override function init():void
+		public function get data():MovieClip
 		{
-			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
-			graphic.getChildAt(0).x = gameStage.stageWidth * 0.5;
-			graphic.getChildAt(0).y = gameStage.stageHeight;
+			return zoneData;
 		}
 		
-		public override function move():void
+		public function get height():Number
 		{
-			var numTiles:int = graphic.numChildren;
-			
-			if (numTiles >= 1) graphic.getChildAt(0).y += BACKGROUND_VSPEED;
-			if (numTiles == 2) graphic.getChildAt(1).y += BACKGROUND_VSPEED;
-			
-			if (numTiles == 1) {
-				if (graphic.getChildAt(0).y > (gameStage.stageHeight * 2.0)) {
-					IncrementBackgroundIndex();
-					AddNextBackgroundTile();
-				}
-			} else if (numTiles == 2) {
-				if (graphic.getChildAt(1).y > gameStage.stageHeight) {
-					IncrementBackgroundIndex();
-					RemovePreviousBackgroundTile();
-					AddNextBackgroundTile();
-				}
-			}
+			return data.height;
 		}
 		
-		protected function IncrementBackgroundIndex():void
+		public function get width():Number
 		{
-			backgroundSequenceIndex++;
-			
-			if (backgroundSequenceIndex >= backgroundSequence.length) {
-				backgroundSequenceIndex = 0;
-			}
+			return data.width;
 		}
 		
-		protected function AddNextBackgroundTile():void
+		public function get x():Number
 		{
-			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
-			graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
-			graphic.getChildAt(1).y = 0.0;
+			return data.x;
 		}
 		
-		protected function RemovePreviousBackgroundTile():void
+		public function get y():Number
 		{
-			if (graphic.numChildren == 2) {
-				graphic.removeChildAt(0);
-			}
+			return data.y;
 		}
 		
-		protected function ChangeBackground():void
+		public function set x(value:Number):void
 		{
-			if (backgroundSequenceIndex >= backgroundSequence.length) {
-				backgroundSequenceIndex = 0;
-			}
-
-			/*if(graphic.numChildren == 2) {
-				graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
-				graphic.getChildAt(1).y = 0;
-			}*/
-			
-			backgroundSequenceIndex++;
-			
-			/*removeChild(graphic);
-			
-			switch(bgType) {
-				case BACKGROUND_TYPE_GROUND:
-					graphic = new graphics_bg_ground();
-					break;
-							
-				case BACKGROUND_TYPE_WATER:
-					graphic = new graphics_bg_water();
-					break;
-					
-				default:
-					graphic = new graphics_bg_ground();
-			}
-			
-			addChild(graphic);
-			
-			// TO-DO: ground transitions
-			
-			*/
+			data.x = value;
+		}
+		
+		public function set y(value:Number):void
+		{
+			data.y = value;
 		}
 	}
 }
