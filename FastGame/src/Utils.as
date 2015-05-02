@@ -21,6 +21,11 @@ package
 			// format messages, different errors, etc
 		}
 		
+		public static function roundToPrecision(n:Number, precision:Number):Number
+		{
+			return Math.round(n * precision) / precision;
+		}
+		
 	}
 
 }

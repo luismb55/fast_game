@@ -11,17 +11,18 @@ package
 	{
 		protected var zoneName:String;
 		protected var zoneData:MovieClip;
+		protected var zoneVSpeed:Number;
 		protected var zoneTransition:MovieClip;
 		
 		protected var gameStage:Stage;
 		
 		private var hasTransition:Boolean = false;
 		
-		public function Background(zoneName:String, zoneData:MovieClip, s:Stage = null) 
+		public function Background(zoneName:String, zoneData:MovieClip, zoneVSpeed:Number = 10.0) 
 		{
 			this.zoneName = zoneName;
 			this.zoneData = zoneData;
-			gameStage = s;
+			this.zoneVSpeed = zoneVSpeed;
 		}
 		
 		public function AddTransitionZone(zoneA:String, zoneB:String):void
@@ -70,6 +71,11 @@ package
 			return zoneData;
 		}
 		
+		public function get vSpeed():Number
+		{
+			return zoneVSpeed;
+		}
+		
 		public function get transitionData():MovieClip
 		{
 			return zoneTransition;
@@ -103,6 +109,11 @@ package
 		public function set y(value:Number):void
 		{
 			data.y = value;
+		}
+		
+		public function set vSpeed(value:Number):void
+		{
+			zoneVSpeed = value;
 		}
 	}
 }
