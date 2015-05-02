@@ -30,26 +30,33 @@ package
 			
 			if (zoneTransition && zoneData.contains(zoneTransition)) {
 					zoneData.removeChild(zoneTransition);
+					zoneData.getChildAt(0).y -= zoneTransition.height;
+					
+					zoneTransition = null;
 			}
 			
 			if (zoneA != zoneB) {
+				
+				Utils.log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB);
+				
 				try {
 					transitionClass = getDefinitionByName("graphics_bg_" 
 					+ zoneA.toLowerCase() + "2" 
 					+ zoneB.toLowerCase()) as Class;
 				} catch (e:Error) {
-					Utils.error("Invalid zone transition");
+					Utils.error("INVALID ZONE TRANSITION");
 				}
 				
 				zoneTransition = (new transitionClass() as MovieClip);
+				zoneData.getChildAt(0).y += zoneTransition.height;
 				zoneTransition.x = 0.0;
-				zoneTransition.y = -zoneTransition.height;
+				zoneTransition.y = 0.0;
 				
 				zoneData.addChild(zoneTransition);
 				
 				hasTransition = true;
 			} else {
-				Utils.log("NO TRANSITION ZONE");
+				Utils.log("--> NO TRANSITION ZONE ADDED");
 			}
 		}
 		

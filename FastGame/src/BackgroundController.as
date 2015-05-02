@@ -22,11 +22,12 @@ package
 		protected static const BACKGROUND_SEQUENCE:Vector.<String> = new <String>[
 			ZONE_GROUND,
 			ZONE_WATER,
+			ZONE_WATER,
 			ZONE_GROUND,
 			ZONE_WATER,
 		];
 		
-		public static const BACKGROUND_VSPEED:Number = 15;
+		public static const BACKGROUND_VSPEED:Number = 10;
 		
 		/*
 		 * Internal class attributes
@@ -49,16 +50,15 @@ package
 		
 		public override function init():void
 		{
-			var prevIndex:int = (backgroundSequenceIndex - 1) % backgroundSequence.length;
-				if (prevIndex < 0) prevIndex = backgroundSequenceIndex - prevIndex;
+			var nextIndex:int = (backgroundSequenceIndex + 1) % backgroundSequence.length;
 				
 			visibleZoneA = backgroundSequence[backgroundSequenceIndex];
-			visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[prevIndex].name);
+			Utils.log("LOADED INITIAL ZONE: " + visibleZoneA.name);
+			
+			visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
 			
 			visibleZoneA.x = gameStage.stageWidth * 0.5;
-			visibleZoneA.y = -visibleZoneA.height + gameStage.stageHeight + visibleZoneA.transitionData.height;
-			
-			Utils.log("INITIAL ZONE: " + visibleZoneA.name);
+			visibleZoneA.y = -visibleZoneA.height + gameStage.stageHeight;
 			
 			visibleZoneB = new Background("", new MovieClip());
 			
@@ -69,7 +69,7 @@ package
 		public override function move():void
 		{
 			if (visibleZoneA && graphic.contains(visibleZoneA.data)) 
-			visibleZoneA.y += BACKGROUND_VSPEED;
+				visibleZoneA.y += BACKGROUND_VSPEED;
 			if (visibleZoneB && graphic.contains(visibleZoneB.data))
 				visibleZoneB.y += BACKGROUND_VSPEED;
 			
@@ -79,19 +79,18 @@ package
 				
 				if (graphic.contains(visibleZoneB.data)) graphic.removeChild(visibleZoneB.data);
 				
-				var prevIndex:int = (backgroundSequenceIndex - 1) % backgroundSequence.length;
-				if (prevIndex < 0) prevIndex = backgroundSequenceIndex - prevIndex;
+				var nextIndex:int = (backgroundSequenceIndex + 1) % backgroundSequence.length;
 				
 				visibleZoneB = backgroundSequence[backgroundSequenceIndex];
-				visibleZoneB.AddTransitionZone(visibleZoneB.name, backgroundSequence[prevIndex].name);
+				Utils.log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
+				
+				visibleZoneB.AddTransitionZone(visibleZoneB.name, backgroundSequence[nextIndex].name);
 				visibleZoneB.x = gameStage.stageWidth * 0.5;
 				visibleZoneB.y = -visibleZoneB.height;
 				
 				graphic.addChild(visibleZoneB.data);
 			
 				nextSet = true;
-				
-				Utils.log("UPCOMING ZONE: " + visibleZoneB.name);
 			}
 			
 			if (nextSet && visibleZoneB.y > -BACKGROUND_VSPEED) {
@@ -100,19 +99,18 @@ package
 				
 				if (graphic.contains(visibleZoneA.data)) graphic.removeChild(visibleZoneA.data);
 				
-				prevIndex = (backgroundSequenceIndex - 1) % backgroundSequence.length;
-				if (prevIndex < 0) prevIndex = backgroundSequenceIndex - prevIndex;
+				nextIndex = (backgroundSequenceIndex + 1) % backgroundSequence.length;
 				
 				visibleZoneA = backgroundSequence[backgroundSequenceIndex];
-				visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[prevIndex].name);
+				Utils.log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
+				
+				visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
 				visibleZoneA.x = gameStage.stageWidth * 0.5;
 				visibleZoneA.y = -visibleZoneA.height;
 				
 				graphic.addChild(visibleZoneA.data);
 				
 				nextSet = false;
-				
-				Utils.log("UPCOMING ZONE: " + visibleZoneA.name);
 			}
 		}
 		
