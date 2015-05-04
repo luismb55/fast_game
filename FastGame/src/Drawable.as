@@ -25,10 +25,15 @@ package
 		
 		public function move():void
 		{
-			position = position.add(direction);
+			position.x += direction.x;
+			position.y += direction.y;
 			graphic.x = position.x;
 			graphic.y = position.y;
-			//trace(position.x.toString() + ', ' + position.y.toString());
+		}
+		
+		public function isActive():Boolean
+		{
+			return true;
 		}
 	}
 }

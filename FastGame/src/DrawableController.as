@@ -43,7 +43,10 @@ package
 			}
 			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
 				{
-					x.move();
+					if (x.isActive())
+					{
+						x.move();
+					}
 				});
 		}
 		
@@ -62,6 +65,6 @@ package
 					x.init();
 				});
 		}
-		
+	
 	}
 }

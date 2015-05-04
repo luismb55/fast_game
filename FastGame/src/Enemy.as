@@ -11,5 +11,10 @@ package
 			position.y = 0;
 			direction.y = 2;
 		}
+
+		public override function isActive():Boolean
+		{
+			return position.y < (gameStage.height + graphic.height);
+		}
 	}
 }
