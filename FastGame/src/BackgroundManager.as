@@ -223,8 +223,9 @@ package
 				speedSet = false;
 			}
 			
-			visibleZoneA.x = mouseX;
-			visibleZoneB.x = mouseX;
+			// totally temp!:
+			visibleZoneA.x = (-mouseX + visibleZoneA.width * 0.5) / 5;
+			visibleZoneB.x = (-mouseX + visibleZoneB.width * 0.5) / 5;
 		}
 		
 		protected function UpdateDebugLabelZones(curIndex:int):void
