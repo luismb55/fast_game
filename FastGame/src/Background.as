@@ -38,14 +38,14 @@ package
 			
 			if (zoneA != zoneB) {
 				
-				Utils.log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB);
+				Utils.Log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB, Utils.MESSAGE_TYPE_LOG);
 				
 				try {
 					transitionClass = getDefinitionByName("graphics_bg_" 
 					+ zoneA.toLowerCase() + "2" 
 					+ zoneB.toLowerCase()) as Class;
 				} catch (e:Error) {
-					Utils.error("INVALID ZONE TRANSITION");
+					Utils.Log("INVALID ZONE TRANSITION", Utils.MESSAGE_TYPE_ERROR);
 				}
 				
 				zoneTransition = (new transitionClass() as MovieClip);
@@ -57,7 +57,7 @@ package
 				
 				hasTransition = true;
 			} else {
-				Utils.log("--> NO TRANSITION ZONE ADDED");
+				Utils.Log("--> NO TRANSITION ZONE ADDED", Utils.MESSAGE_TYPE_LOG);
 			}
 		}
 		
