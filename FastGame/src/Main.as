@@ -1,5 +1,9 @@
 package
 {
+	import engine.components.SpriteRenderer;
+	import engine.GameApp;
+	import engine.GameObject;
+	import engine.Scene;
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
 	import flash.display.Sprite;
@@ -21,12 +25,10 @@ package
 		
 		public function Main() 
 		{
-			stage.scaleMode = StageScaleMode.NO_SCALE;
-			stage.align = StageAlign.TOP_LEFT;
-			stage.addEventListener(Event.DEACTIVATE, deactivate);
 			
-			// touch or gesture?
-			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+			addEventListener(Event.ADDED_TO_STAGE, onAddedToStage, false, 0, true);
+			
+			return;
 			
 			drawableController = new DrawableController(stage);
 			gameController = new GameController(stage, drawableController);
@@ -40,6 +42,35 @@ package
 		{
 			// make sure the app behaves well (or exits) when in background
 			//NativeApplication.nativeApplication.exit();
+		}
+		
+		protected function onAddedToStage(e:Event):void
+		{
+			stage.scaleMode = StageScaleMode.NO_SCALE;
+			stage.align = StageAlign.TOP_LEFT;
+			stage.addEventListener(Event.DEACTIVATE, deactivate);
+			
+			// touch or gesture?
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+			
+			addChild(GameApp.getInstance());
+			
+			// test
+			var mainScene:Scene = new Scene();
+			GameApp.scene = mainScene;
+			
+			var bullet:GameObject = new GameObject();
+			
+			var renderer:SpriteRenderer = new SpriteRenderer(bullet,"renderer");
+			renderer.sprite = new animation_enemy_bullet_idle();
+			
+			var bulletScript:EnemyBulletScript = new EnemyBulletScript();
+			
+			mainScene.addGameObject(bullet);
+			bullet.addComponent(renderer);
+			bullet.addScript(bulletScript);
+			
+			renderer.sprite = new animation_enemy_bullet_hit();
 		}
 		
 		protected function test():void
