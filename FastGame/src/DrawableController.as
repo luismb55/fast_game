@@ -13,8 +13,6 @@ package
 		{
 			gameStage = s;
 			gameStage.addEventListener(Event.ENTER_FRAME, update);
-			
-			init();
 		}
 		
 		static private function countDrawables(v:Vector.<Drawable>, c:Class):int
@@ -58,7 +56,7 @@ package
 		
 		public function init():void
 		{
-			addDrawable(new BackgroundController(gameStage));
+			//addDrawable(new BackgroundManager(gameStage));
 			
 			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
 				{

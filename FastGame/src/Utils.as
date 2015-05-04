@@ -2,30 +2,21 @@ package
 {
 	/**
 	 * ...
-	 * @author ...
+	 * @author 3Elephants
 	 */
 	public class Utils 
 	{
+		public static const MESSAGE_TYPE_LOG:String = "LOG";
+		public static const MESSAGE_TYPE_ERROR:String = "ERROR";
 		
-		public static function log(message:String):void
+		public static function Log(message:String, type:String = MESSAGE_TYPE_LOG):void
 		{
-			trace(">> " + message);
-			
-			// format messages, different logs, etc
+			trace(">> [" + type + "]: " + message);
 		}
 		
-		public static function error(message:String):void
-		{
-			trace(">> ERROR!: " + message);
-			
-			// format messages, different errors, etc
-		}
-		
-		public static function roundToPrecision(n:Number, precision:Number):Number
+		public static function RoundToPrecision(n:Number, precision:Number):Number
 		{
 			return Math.round(n * precision) / precision;
 		}
-		
 	}
-
 }

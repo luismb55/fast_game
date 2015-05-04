@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<background_sequence>
+<!-- Zone types: GROUND, WATER -->
+	<zone>
+		<type>GROUND</type>
+		<vspeed>10.0</vspeed>
+	</zone>
+	<zone>
+		<type>WATER</type>
+		<vspeed>25.0</vspeed>
+	</zone>
+	<zone>
+		<type>GROUND</type>
+		<vspeed>8.0</vspeed>
+	</zone>
+	<zone>
+		<type>WATER</type>
+		<vspeed>15.0</vspeed>
+	</zone>
+	<zone>
+		<type>GROUND</type>
+		<vspeed>12.0</vspeed>
+	</zone>
+	<zone>
+		<type>GROUND</type>
+		<vspeed>10.0</vspeed>
+	</zone>
+	<zone>
+		<type>WATER</type>
+		<vspeed>20.0</vspeed>
+	</zone>
+</background_sequence>

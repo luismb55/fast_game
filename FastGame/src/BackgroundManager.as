@@ -4,14 +4,21 @@ package
 	import flash.display.Stage;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
+	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	/**
 	 * ...
 	 * @author 3Elephants
 	 */
-	public class BackgroundController extends Drawable
+	public class BackgroundManager extends Drawable
 	{
+		/*
+		 * Embedded external XML file which contains the background sequence
+		 */
+		[Embed(source="XML/background_sequence.xml", mimeType="application/octet-stream")] 
+		protected const EmbeddedXMLBgSequence:Class;
+		
 		/*
 		 * These are the different background zones available
 		 */
@@ -21,15 +28,11 @@ package
 		/*
 		 * Defines the background's sequence, which automatically loops
 		 */
-		protected static const BACKGROUND_SEQUENCE:Vector.<Object> = new <Object>[
-			{ "zone" : ZONE_GROUND, 	"speed" : 10.0 }, 
-			{ "zone" : ZONE_WATER, 		"speed" : 25.0 },
-			{ "zone" : ZONE_GROUND, 	"speed" : 8.0 },
-			{ "zone" : ZONE_WATER, 		"speed" : 25.0 },
-			{ "zone" : ZONE_GROUND, 	"speed" : 12.0 },
-			{ "zone" : ZONE_GROUND, 	"speed" : 10.0 },
-			{ "zone" : ZONE_WATER, 		"speed" : 25.0 },
-		];
+		protected static var BACKGROUND_SEQUENCE:Vector.<Object> = new <Object>[
+			{ "zone" : ZONE_GROUND, "speed" : 10.0 },
+			{ "zone" : ZONE_WATER, "speed" : 10.0 },
+			{ "zone" : ZONE_GROUND, "speed" : 10.0 },
+		]; // Initialized with a default sequence (in case XML loader fails)
 		
 		/*
 		 * Internal class attributes
@@ -47,13 +50,15 @@ package
 		private var nextSet:Boolean = false;
 		private var speedSet:Boolean = false;
 		
+		private var initialized:Boolean = false;
+		
 		/*
 		 * Debug variables
 		 */
 		private var debugLabel:TextField;
 		private var debugLabelText:String = "";
 		
-		public function BackgroundController(s:Stage)
+		public function BackgroundManager(s:Stage)
 		{
 			graphic = new MovieClip();	
 			super(s);
@@ -69,20 +74,41 @@ package
 			debugLabel.text = "";
 			addChild(debugLabel);
 			// (DEBUG)
-			
-			CreateZonesSequence();
 		}
 		
 		/*
 		 * Initializes the first background zone of the sequence
 		 */
 		public override function init():void
-		{
+		{	
+			// 1) Reads the embedded XML file to retrieve the sequence:
+			var byteData:ByteArray = new EmbeddedXMLBgSequence();
+			
+			var xmlParser:XMLParser = new XMLParser();
+			var xmlData:XML = XML(byteData.readUTFBytes(byteData.length));
+			var xmlSequence:Object = xmlParser.ConvertXML2Object(xmlData);
+			
+			if (xmlSequence && xmlSequence.hasOwnProperty("background_sequence")) {
+				BACKGROUND_SEQUENCE = new Vector.<Object>();
+				
+				if (xmlSequence.background_sequence != null) {
+					for (var i:int = 0; i < xmlSequence.background_sequence.zone.length; i++) {
+						var xmlZone:Object = xmlSequence.background_sequence.zone[i];
+						
+						BACKGROUND_SEQUENCE.push( { "zone" : xmlZone.type._text, "speed" : xmlZone.vspeed._text } );
+					}
+				}
+			}
+			
+			// 2) Creates the zones sequence:
+			CreateZonesSequence();
+			
+			// 3) Initializes the first zone of the sequence:
 			var nextIndex:int = (backgroundSequenceIndex + 1) % backgroundSequence.length;
 				
 			visibleZoneA = backgroundSequence[backgroundSequenceIndex];
 			
-			Utils.log("LOADED INITIAL ZONE: " + visibleZoneA.name);
+			Utils.Log("LOADED INITIAL ZONE: " + visibleZoneA.name);
 			UpdateDebugLabelZones(backgroundSequenceIndex);
 			
 			visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
@@ -97,6 +123,8 @@ package
 			
 			graphic.addChild(visibleZoneA.data);
 			graphic.addChild(visibleZoneB.data);
+			
+			initialized = true;
 		}
 		
 		/*
@@ -118,6 +146,8 @@ package
 		
 		public override function move():void
 		{
+			if (!initialized) return;
+			
 			if (backgroundSpeed != backgroundInertiaSpeed) {
 				if(backgroundSpeed > backgroundInertiaSpeed)
 					backgroundSpeed -= backgroundInertiaSpeed / backgroundInertiaPercent;
@@ -147,7 +177,7 @@ package
 				
 				visibleZoneB = backgroundSequence[backgroundSequenceIndex];
 				
-				Utils.log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
+				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
 				UpdateDebugLabelZones(backgroundSequenceIndex);
 				
 				visibleZoneB.AddTransitionZone(visibleZoneB.name, backgroundSequence[nextIndex].name);
@@ -169,7 +199,7 @@ package
 				
 				visibleZoneA = backgroundSequence[backgroundSequenceIndex];
 				
-				Utils.log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
+				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
 				UpdateDebugLabelZones(backgroundSequenceIndex);
 				
 				visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
@@ -192,6 +222,10 @@ package
 				backgroundInertiaSpeed = backgroundSequence[nextIndex].vSpeed;
 				speedSet = false;
 			}
+			
+			// totally temp!:
+			visibleZoneA.x = (-mouseX + visibleZoneA.width * 0.5) / 5;
+			visibleZoneB.x = (-mouseX + visibleZoneB.width * 0.5) / 5;
 		}
 		
 		protected function UpdateDebugLabelZones(curIndex:int):void
@@ -210,7 +244,7 @@ package
 		{
 			debugLabel.text = debugLabelText 
 				+ "\n> CURRENT SPEED: " 
-				+ Utils.roundToPrecision(speed, 10) + " u";
+				+ Utils.RoundToPrecision(speed, 10) + " u";
 		}
 	}
 }
