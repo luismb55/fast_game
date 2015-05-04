@@ -224,8 +224,8 @@ package
 			}
 			
 			// totally temp!:
-			visibleZoneA.x = (-mouseX + visibleZoneA.width * 0.5) / 5;
-			visibleZoneB.x = (-mouseX + visibleZoneB.width * 0.5) / 5;
+			visibleZoneA.x = (-mouseX + visibleZoneA.width * 0.5) / 10;
+			visibleZoneB.x = (-mouseX + visibleZoneB.width * 0.5) / 10;
 		}
 		
 		protected function UpdateDebugLabelZones(curIndex:int):void
