@@ -53,6 +53,7 @@
   <!-- SWC Libraries -->
   <libraryPaths>
     <element path="lib\assets.swc" />
+    <element path="lib\animations.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
