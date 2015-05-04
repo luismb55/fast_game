@@ -7,7 +7,7 @@ package
 	import flash.display.StageScaleMode;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	import infrastructure.Animation;
+	import engine.Animation;
 	
 	/**
 	 * ...

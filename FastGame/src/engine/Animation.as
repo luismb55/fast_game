@@ -1,11 +1,11 @@
-package infrastructure 
+package engine 
 {
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-	import infrastructure.interfaces.IDisposable;
+	import engine.interfaces.IDisposable;
 	
 	/**
 	 * ...
