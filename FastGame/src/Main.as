@@ -16,7 +16,7 @@ package
 	{
 		protected var drawableController:DrawableController;
 		protected var gameController:GameController;
-		protected var player:Player;
+		protected var player:Player; // no se usa?
 		
 		public function Main() 
 		{

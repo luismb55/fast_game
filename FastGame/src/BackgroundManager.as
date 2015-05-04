@@ -11,7 +11,7 @@ package
 	 * ...
 	 * @author 3Elephants
 	 */
-	public class BackgroundController extends Drawable
+	public class BackgroundManager extends Drawable
 	{
 		/*
 		 * Embedded external XML file which contains the background sequence
@@ -58,7 +58,7 @@ package
 		private var debugLabel:TextField;
 		private var debugLabelText:String = "";
 		
-		public function BackgroundController(s:Stage)
+		public function BackgroundManager(s:Stage)
 		{
 			graphic = new MovieClip();	
 			super(s);
@@ -222,6 +222,9 @@ package
 				backgroundInertiaSpeed = backgroundSequence[nextIndex].vSpeed;
 				speedSet = false;
 			}
+			
+			visibleZoneA.x = mouseX;
+			visibleZoneB.x = mouseX;
 		}
 		
 		protected function UpdateDebugLabelZones(curIndex:int):void
