@@ -50,6 +50,14 @@ package
 		
 		public function addDrawable(d:Drawable):void
 		{
+			var found:Boolean = false;
+			for (var i:int = 0; i < drawables.length; i++)
+			{
+				if (drawables[i] == d)
+				{
+					return;
+				}
+			}
 			drawables.push(d);
 			gameStage.addChild(d);
 		}

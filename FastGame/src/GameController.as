@@ -5,53 +5,34 @@ package
 	
 	public class GameController
 	{
-		
-		private var stage:Stage;
-		private var dc:DrawableController;
+		private var gameStage:Stage;
+		private var drawableController:DrawableController;
 		private var bgManager:BackgroundManager;
 		private var player:Player;
-		private var playerBullets:Vector.<PlayerBullet> = new Vector.<PlayerBullet>();
+		private var playerBullets:DrawableManager = new DrawableManager(gameStage, PlayerBullet);
 		
 		public function GameController(s:Stage, dc:DrawableController)
 		{
-			this.stage = s;
-			this.dc = dc;
+			gameStage = s;
+			drawableController = dc;
 
-			bgManager = new BackgroundManager(stage);
-			player = new Player(this.stage);
+			bgManager = new BackgroundManager(gameStage);
+			player = new Player(gameStage);
 			
-			this.dc.addDrawable(bgManager);
-			this.dc.addDrawable(player);
+			drawableController.addDrawable(bgManager);
+			drawableController.addDrawable(player);
 			
-			this.dc.init();
+			drawableController.init();
 			
-			this.stage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseClick);
+			gameStage.addEventListener(MouseEvent.MOUSE_DOWN, onMouseClick);
 		}
-		
-		protected function findUnusedBullet():PlayerBullet
-		{
-			
-			for (var i:int = 0; i < playerBullets.length; i++)
-			{
-				if (!playerBullets[i].isActive())
-				{
-					trace("Reusing " + playerBullets[i] + " (" + (i + 1) + " of " + playerBullets.length + ")");
-					playerBullets[i].resetPosition();
-					return playerBullets[i];
-				}
-			}
-			trace("Creating new PlayerBullet");
-			var result:PlayerBullet = new PlayerBullet(this.stage, player);
-			playerBullets.push(result);
-			return result;
-		}
-		
+
 		protected function onMouseClick(e:MouseEvent):void
 		{
-			var bullet:PlayerBullet = findUnusedBullet();
-			dc.addDrawable(bullet);
+			var bullet:PlayerBullet = playerBullets.getOne() as PlayerBullet;
+			bullet.setPlayer(player);
+			drawableController.addDrawable(bullet);
 		}
-	
 	}
 
 }
