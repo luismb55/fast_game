@@ -1,17 +1,17 @@
 package
 {
-	import engine.components.SpriteRenderer;
+	import engine.components.Animation;
 	import engine.GameApp;
-	import engine.GameObject;
+	import engine.game_objects.GameObject;
 	import engine.Scene;
-	import flash.desktop.NativeApplication;
-	import flash.events.Event;
+	import engine.components.SpriteRenderer;
+	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
+	import flash.events.Event;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
-	import engine.Animation;
 	
 	/**
 	 * ...
@@ -55,13 +55,14 @@ package
 			
 			addChild(GameApp.getInstance());
 			
-			// test
+			// TODO REMOVE this is a test
 			var mainScene:Scene = new Scene();
 			GameApp.scene = mainScene;
+			GameApp.getInstance().init();
 			
 			var bullet:GameObject = new GameObject();
 			
-			var renderer:SpriteRenderer = new SpriteRenderer(bullet,"renderer");
+			var renderer:SpriteRenderer = new SpriteRenderer(bullet);
 			renderer.sprite = new animation_enemy_bullet_idle();
 			
 			var bulletScript:EnemyBulletScript = new EnemyBulletScript();
@@ -73,6 +74,7 @@ package
 			renderer.sprite = new animation_enemy_bullet_hit();
 		}
 		
+		// TODO REMOVE
 		protected function test():void
 		{
 			var anim1:Animation = new Animation(stage, new animation_enemy_bullet_spawn(), false, false);

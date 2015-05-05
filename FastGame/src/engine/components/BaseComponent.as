@@ -1,32 +1,25 @@
 package engine.components 
 {
-	import engine.GameObject;
+	import engine.game_objects.GameObject;
+	import engine.interfaces.IUpdateable;
+
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class BaseComponent 
+	public class BaseComponent implements IUpdateable
 	{
-		protected var _name:String;
 		public var gameObject:GameObject;
 		
-		public function BaseComponent(object:GameObject, name:String = "unnamed component") 
+		public function BaseComponent(object:GameObject = null) 
 		{
 			gameObject = object;
-			_name = name;
 		}
 		
-		public function get name():String 
+		public function update():void
 		{
-			return _name;
+		
 		}
-		
-		public function set name(value:String):void 
-		{
-			_name = value;
-		}
-		
-		
 	}
 
 }

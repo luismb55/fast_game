@@ -1,16 +1,20 @@
-package engine 
+package engine.scripting 
 {
+	import engine.game_objects.GameObject;
+	import engine.interfaces.IUpdateable;
+
 	/**
 	 * ...
 	 * @author ...
 	 */
-	public class BaseScript 
+	public class BaseScript implements IUpdateable
 	{
+		public var gameObject:GameObject;
 		private var _enabled:Boolean = false;
 		
-		public function BaseScript() 
+		public function BaseScript(object:GameObject = null) 
 		{
-			
+			gameObject = object;
 		}
 		
 		public function start():void
@@ -19,17 +23,6 @@ package engine
 		}
 		
 		public function update():void
-		{
-			
-		}
-		
-		public function fixedUpdate():void
-		{
-			
-			
-		}
-		
-		public function lateUpdate():void
 		{
 			
 		}

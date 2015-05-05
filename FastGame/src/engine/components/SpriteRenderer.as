@@ -1,7 +1,7 @@
 package engine.components 
 {
 	import flash.display.Sprite;
-	import engine.GameObject;
+	import engine.game_objects.GameObject;
 	/**
 	 * ...
 	 * @author Luis Miguel Blanco
@@ -10,9 +10,9 @@ package engine.components
 	{
 		protected var _sprite:Sprite;
 		
-		public function SpriteRenderer(object:GameObject, name:String = "unnamed sprite renderer") 
+		public function SpriteRenderer(object:GameObject) 
 		{
-			super(object,name);	
+			super(object);	
 		}
 		
 		public function get sprite():Sprite 

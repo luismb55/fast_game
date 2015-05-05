@@ -1,11 +1,12 @@
-package engine 
+package engine.components 
 {
+	import engine.interfaces.IDisposable;
+	
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
 	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.utils.Dictionary;
-	import engine.interfaces.IDisposable;
 	
 	/**
 	 * ...
@@ -20,7 +21,7 @@ package engine
 		protected var _frameEvents:Dictionary;
 		protected var _labelEvents:Dictionary;
 		
-		public function Animation(s:Stage, clip:MovieClip, interruptable:Boolean = true, loops = false) 
+		public function Animation(s:Stage, clip:MovieClip, interruptable:Boolean = true, loops:Boolean = false) 
 		{
 			graphic = clip != null ? clip : new MovieClip(); // TODO change for dummy
 			
@@ -41,7 +42,7 @@ package engine
 			graphic.gotoAndPlay(1);
 		}
 		
-		public function dispose():void
+		public function destroy():void
 		{
 			removeChild(graphic);
 			
@@ -66,18 +67,18 @@ package engine
 					var event:Function = _frameEvents[fe];
 					var frameNumber:int = int(fe);
 					
-					if(graphic.currentFrame == frameNumber && event)
+					if(graphic.currentFrame == frameNumber && event != null)
 						event();
 				}
 			}
 			
 			if (_labelEvents){
 				for(var le:Object in _labelEvents){
-					var event:Function = _labelEvents[le];
+					var levent:Function = _labelEvents[le];
 					var frameLabel:String = String(le);
 					
-					if (graphic.currentFrameLabel == frameLabel && event)
-						event();
+					if (graphic.currentFrameLabel == frameLabel && levent != null)
+						levent();
 				}
 			}
 			

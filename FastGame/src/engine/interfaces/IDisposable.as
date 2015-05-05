@@ -6,7 +6,7 @@ package engine.interfaces
 	 */
 	public interface IDisposable 
 	{
-        function dispose():void;	
+        function destroy():void;	
 	}
 
 }

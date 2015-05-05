@@ -1,5 +1,8 @@
 package engine 
 {
+	import engine.game_objects.GameObject;
+	import engine.interfaces.IUpdateable;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	
@@ -7,12 +10,26 @@ package engine
 	 * ...
 	 * @author ...
 	 */
-	public class Scene extends Sprite 
+	public class Scene extends Sprite implements IUpdateable
 	{
 		
 		public function Scene()
 		{
 			super();
+		}
+		
+		public function update():void
+		{
+			for (var i:uint = 0; i < numChildren; i++){
+				getGameObjectAt(i).update();
+			}
+		}
+		
+		public function draw():void
+		{
+			for (var i:uint = 0; i < numChildren; i++){
+				getGameObjectAt(i).draw();
+			}
 		}
 		
 		public override function addChild(child:DisplayObject):DisplayObject

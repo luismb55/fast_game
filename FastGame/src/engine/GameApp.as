@@ -2,6 +2,8 @@ package engine
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.utils.getTimer;
 	
 	/**
 	 * ...
@@ -11,6 +13,8 @@ package engine
 	{
 		private static var _instance:GameApp;
 		protected static var _scene:Scene;
+	
+		private static var isPaused:Boolean;
 		
 		public function GameApp(){
 			if(_instance){
@@ -19,11 +23,38 @@ package engine
 			_instance = this;
 		}
 
-		public static function getInstance():GameApp{
+		public static function getInstance():GameApp
+		{
 			if(!_instance){
 				new GameApp();
+				isPaused = false;
 			} 
 			return _instance;
+		}
+		
+		public function init():void
+		{
+			if(!hasEventListener(Event.ENTER_FRAME)){
+				addEventListener(Event.ENTER_FRAME, mainLoop);
+			}
+		}
+		
+		protected function mainLoop(e:Event):void
+		{
+			if(!isPaused){
+				update();
+				draw();
+			}
+		}
+		
+		private function update():void
+		{
+			_scene.update();
+		}
+		
+		private function draw():void
+		{
+			_scene.draw();
 		}
 		
 		public static function set scene(s:Scene):void
