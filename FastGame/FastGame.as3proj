@@ -10,7 +10,7 @@
     <movie height="960" />
     <movie version="17" />
     <movie minorVersion="0" />
-    <movie platform="AIR Mobile" />
+    <movie platform="Flash Player" />
     <movie background="#FFFFFF" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
@@ -54,6 +54,10 @@
   <libraryPaths>
     <element path="lib\assets.swc" />
     <element path="lib\animations.swc" />
+    <element path="lib\asdpc-0.4.1-snapshot.swc" />
+    <element path="lib\as3commons-collections-1.3.0.swc" />
+    <element path="lib\GTween_V2_01.swc" />
+    <element path="lib\flexunit-0.90.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>

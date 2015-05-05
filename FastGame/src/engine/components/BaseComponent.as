@@ -10,6 +10,7 @@ package engine.components
 	public class BaseComponent implements IUpdateable
 	{
 		public var gameObject:GameObject;
+		private var _enabled:Boolean = false;
 		
 		public function BaseComponent(object:GameObject = null) 
 		{
@@ -19,6 +20,16 @@ package engine.components
 		public function update():void
 		{
 		
+		}
+		
+		public function get enabled():Boolean
+		{
+			return _enabled;
+		}
+		
+		public function set enabled(e:Boolean):void
+		{
+			_enabled = e;
 		}
 	}
 

@@ -10,7 +10,7 @@ package engine.scripting
 	public class BaseScript implements IUpdateable
 	{
 		public var gameObject:GameObject;
-		private var _enabled:Boolean = false;
+		private var _enabled:Boolean = true;
 		
 		public function BaseScript(object:GameObject = null) 
 		{

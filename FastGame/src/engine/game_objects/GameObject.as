@@ -36,11 +36,11 @@ package engine.game_objects
 		final public function update():void
 		{
 			for each(var component:BaseComponent in components){
-				component.update();
+				if(component.enabled) component.update();
 			}
 			
 			for each(var script:BaseScript in scripts){
-				script.update();
+				if(script.enabled) script.update();
 			}
 		}
 		
@@ -69,12 +69,12 @@ package engine.game_objects
 		
 		public function addComponent(component:BaseComponent):void
 		{
-			// TODO ¿check for duplicates 
+			/*for each(var c:BaseComponent in components){
+				if (typeof(c) == typeof(component))
+					return;
+			}*/
+			
 			components.push(component);
-				
-			// remove gameobject reference from replaced component
-				
-			// TODO check
 			component.gameObject = this;
 		}
 		
@@ -94,14 +94,14 @@ package engine.game_objects
 		
 		public function addScript(script:BaseScript):void
 		{
-			// TODO check for duplicates
-			scripts.push(script);
-				
-			// remove gameobject reference from replaced script
-				
-			// TODO check
+			for each(var s:BaseScript in scripts){
+				if (typeof(s) == typeof(script))
+					return;
+			}
+			
+			scripts.push(script);	
 			script.gameObject = this;
-			script.start();
+			script.start(); // TODO
 		}
 		
 		public function removeScript(script:BaseScript):void
@@ -111,5 +111,4 @@ package engine.game_objects
 		
 		// remove script by type
 	}
-
 }

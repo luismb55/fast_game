@@ -1,10 +1,13 @@
 package
 {
+	import com.sibirjak.asdpc.treeview.TreeView;
 	import engine.components.Animation;
 	import engine.GameApp;
 	import engine.game_objects.GameObject;
 	import engine.Scene;
 	import engine.components.SpriteRenderer;
+	import flash.display.DisplayObjectContainer;
+	import org.as3commons.collections.framework.IDataProvider;
 	
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
@@ -72,6 +75,9 @@ package
 			bullet.addScript(bulletScript);
 			
 			renderer.sprite = new animation_enemy_bullet_hit();
+			
+			//test();
+			uitest();
 		}
 		
 		// TODO REMOVE
@@ -114,6 +120,23 @@ package
 			stage.addChild(anim1);
 			stage.addChild(anim2);
 			stage.addChild(anim3);
+		}
+		
+		public function uitest():void
+		{
+			var treeView : TreeView = new TreeView();
+			treeView.setSize(440, 360);
+			treeView.dataSource = stage;
+			treeView.dataSourceAdapterFunction = getAdapter;
+			treeView.expandNodeAt(0);
+			addChild(treeView);
+		}
+		
+		private function getAdapter(item : *) : IDataProvider {
+			if (item is DisplayObjectContainer) {
+				return new DOCAdapter(item);
+			}
+			return null;
 		}
 	}
 	
