@@ -1,127 +1,119 @@
-package
+package 
 {
 	import flash.display.MovieClip;
 	import flash.display.Stage;
-	import flash.utils.Dictionary;
+	import flash.utils.getDefinitionByName;
 	/**
 	 * ...
-	 * @author 3Elephants
+	 * @author ...
 	 */
-	public class Background extends Drawable
+	public class Background
 	{
-		public static const BACKGROUND_VSPEED:Number = 5;
+		protected var zoneName:String;
+		protected var zoneData:MovieClip;
+		protected var zoneVSpeed:Number;
+		protected var zoneTransition:MovieClip;
 		
-		protected static const BACKGROUND_ZONES:Dictionary = new Dictionary();
+		protected var gameStage:Stage;
+		
+		private var hasTransition:Boolean = false;
+		
+		public function Background(zoneName:String, zoneData:MovieClip, zoneVSpeed:Number = 10.0) 
 		{
-			BACKGROUND_ZONES["GROUND_ZONE"] = graphics_bg_ground;
-			BACKGROUND_ZONES["WATER_ZONE"] = graphics_bg_water;
+			this.zoneName = zoneName;
+			this.zoneData = zoneData;
+			this.zoneVSpeed = zoneVSpeed;
 		}
 		
-		protected var backgroundSequence:Array;
-		protected var backgroundSequenceIndex:int;
-		
-		private var vMovement:Number;
-		
-		public function Background(s:Stage)
+		public function AddTransitionZone(zoneA:String, zoneB:String):void
 		{
-			backgroundSequence = new Array();
-			backgroundSequence.push(BACKGROUND_ZONES["GROUND_ZONE"]);
-			backgroundSequence.push(BACKGROUND_ZONES["WATER_ZONE"]);
-
-			backgroundSequenceIndex = 0;
-			vMovement = 0.0;
+			var transitionClass:Class;
 			
-			graphic = new MovieClip();
-			
-			super(s);
-			
-			init();
-		}
-		
-		public override function init():void
-		{
-			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
-			graphic.getChildAt(0).x = gameStage.stageWidth * 0.5;
-			graphic.getChildAt(0).y = gameStage.stageHeight;
-		}
-		
-		public override function move():void
-		{
-			var numTiles:int = graphic.numChildren;
-			
-			if (numTiles >= 1) graphic.getChildAt(0).y += BACKGROUND_VSPEED;
-			if (numTiles == 2) graphic.getChildAt(1).y += BACKGROUND_VSPEED;
-			
-			if (numTiles == 1) {
-				if (graphic.getChildAt(0).y > (gameStage.stageHeight * 2.0)) {
-					IncrementBackgroundIndex();
-					AddNextBackgroundTile();
-				}
-			} else if (numTiles == 2) {
-				if (graphic.getChildAt(1).y > gameStage.stageHeight) {
-					IncrementBackgroundIndex();
-					RemovePreviousBackgroundTile();
-					AddNextBackgroundTile();
-				}
-			}
-		}
-		
-		protected function IncrementBackgroundIndex():void
-		{
-			backgroundSequenceIndex++;
-			
-			if (backgroundSequenceIndex >= backgroundSequence.length) {
-				backgroundSequenceIndex = 0;
-			}
-		}
-		
-		protected function AddNextBackgroundTile():void
-		{
-			graphic.addChild(new backgroundSequence[backgroundSequenceIndex]());
-			graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
-			graphic.getChildAt(1).y = 0.0;
-		}
-		
-		protected function RemovePreviousBackgroundTile():void
-		{
-			if (graphic.numChildren == 2) {
-				graphic.removeChildAt(0);
-			}
-		}
-		
-		protected function ChangeBackground():void
-		{
-			if (backgroundSequenceIndex >= backgroundSequence.length) {
-				backgroundSequenceIndex = 0;
-			}
-
-			/*if(graphic.numChildren == 2) {
-				graphic.getChildAt(1).x = gameStage.stageWidth * 0.5;
-				graphic.getChildAt(1).y = 0;
-			}*/
-			
-			backgroundSequenceIndex++;
-			
-			/*removeChild(graphic);
-			
-			switch(bgType) {
-				case BACKGROUND_TYPE_GROUND:
-					graphic = new graphics_bg_ground();
-					break;
-							
-				case BACKGROUND_TYPE_WATER:
-					graphic = new graphics_bg_water();
-					break;
+			if (zoneTransition && zoneData.contains(zoneTransition)) {
+					zoneData.removeChild(zoneTransition);
+					zoneData.getChildAt(0).y -= zoneTransition.height;
 					
-				default:
-					graphic = new graphics_bg_ground();
+					zoneTransition = null;
 			}
 			
-			addChild(graphic);
-			
-			// TO-DO: ground transitions
-			
-			*/
+			if (zoneA != zoneB) {
+				
+				Utils.log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB);
+				
+				try {
+					transitionClass = getDefinitionByName("graphics_bg_" 
+					+ zoneA.toLowerCase() + "2" 
+					+ zoneB.toLowerCase()) as Class;
+				} catch (e:Error) {
+					Utils.error("INVALID ZONE TRANSITION");
+				}
+				
+				zoneTransition = (new transitionClass() as MovieClip);
+				zoneData.getChildAt(0).y += zoneTransition.height;
+				zoneTransition.x = 0.0;
+				zoneTransition.y = 0.0;
+				
+				zoneData.addChild(zoneTransition);
+				
+				hasTransition = true;
+			} else {
+				Utils.log("--> NO TRANSITION ZONE ADDED");
+			}
+		}
+		
+		public function get name():String
+		{
+			return zoneName;
+		}
+		
+		public function get data():MovieClip
+		{
+			return zoneData;
+		}
+		
+		public function get vSpeed():Number
+		{
+			return zoneVSpeed;
+		}
+		
+		public function get transitionData():MovieClip
+		{
+			return zoneTransition;
+		}
+		
+		public function get height():Number
+		{
+			return data.height;
+		}
+		
+		public function get width():Number
+		{
+			return data.width;
+		}
+		
+		public function get x():Number
+		{
+			return data.x;
+		}
+		
+		public function get y():Number
+		{
+			return data.y;
+		}
+		
+		public function set x(value:Number):void
+		{
+			data.x = value;
+		}
+		
+		public function set y(value:Number):void
+		{
+			data.y = value;
+		}
+		
+		public function set vSpeed(value:Number):void
+		{
+			zoneVSpeed = value;
 		}
 	}
 }
