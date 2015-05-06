@@ -1,5 +1,6 @@
 package 
 {
+	import com.fivelephants.engine.components.MonoBehaviour;
 	import com.fivelephants.engine.components.SpriteRenderer;
 	import com.fivelephants.engine.scripting.BaseScript;
 	
@@ -7,7 +8,7 @@ package
 	 * ...
 	 * @author Luis Miguel Blanco
 	 */
-	public class EnemyBulletScript extends BaseScript 
+	public class EnemyBulletScript extends MonoBehaviour 
 	{
 		protected var _spriteRenderer:SpriteRenderer;	
 	
@@ -18,20 +19,27 @@ package
 		
 		public override function start():void
 		{
-			_spriteRenderer = gameObject.getComponent(SpriteRenderer) as SpriteRenderer;
+		//	_spriteRenderer = gameObject.getComponent(SpriteRenderer) as SpriteRenderer;
 		}
 		
 		public override function update():void
 		{
-			if(gameObject == null)
+			if(_gameObject == null)
 				return;
 			
-			if(_spriteRenderer){
+			/*if(_spriteRenderer){
 				_spriteRenderer.update();
-			}
+			}*/
 			
-			gameObject.xPosition += 10;
-			gameObject.yPosition += 10;
+			gameObject.transform.position.x += 10;
+			gameObject.transform.position.y += 10;
+			
+			//trace("enemy bullet script update");
+		}
+		
+		public function mutafakas(object:Object):void
+		{
+			trace("mutafakas",object);
 		}
 	}
 

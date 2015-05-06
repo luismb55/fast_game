@@ -1,6 +1,6 @@
 package com.fivelephants.engine.components 
 {
-	import com.fivelephants.engine.game_objects.GameObject;
+	import com.fivelephants.engine.GameObject;
 	import com.fivelephants.engine.interfaces.IUpdateable;
 
 	/**
@@ -20,6 +20,11 @@ package com.fivelephants.engine.components
 		public function update():void
 		{
 		
+		}
+		
+		public function destroy():void
+		{
+			
 		}
 		
 		public function get enabled():Boolean

@@ -1,18 +1,21 @@
 package com.fivelephants.engine.components 
 {
+	import com.fivelephants.engine.Component;
+	import com.fivelephants.engine.GameObject;
+	
 	import flash.display.Sprite;
-	import com.fivelephants.engine.game_objects.GameObject;
+
 	/**
 	 * ...
 	 * @author Luis Miguel Blanco
 	 */
-	public class SpriteRenderer extends BaseComponent 
+	public class SpriteRenderer extends Component 
 	{
 		protected var _sprite:Sprite;
 		
-		public function SpriteRenderer(object:GameObject) 
+		public function SpriteRenderer() 
 		{
-			super(object);	
+			super();	
 		}
 		
 		public function get sprite():Sprite 
@@ -25,17 +28,17 @@ package com.fivelephants.engine.components
 			var previousIndex:int = -1;
 			
 			if (_sprite != null && value != _sprite && 
-				gameObject != null && gameObject.contains(_sprite)){
-				previousIndex = gameObject.getChildIndex(_sprite);
-				gameObject.removeChild(_sprite);
+				gameObject != null && gameObject.display.contains(_sprite)){
+				previousIndex = gameObject.display.getChildIndex(_sprite);
+				gameObject.display.removeChild(_sprite);
 			}
 			
 			_sprite = value;
 			
 			if(previousIndex >= 0)
-				gameObject.addChildAt(_sprite, previousIndex) // TODO CHECK THE INDEX
+				gameObject.display.addChildAt(_sprite, previousIndex) // TODO CHECK THE INDEX
 			else
-				gameObject.addChild(_sprite);
+				gameObject.display.addChild(_sprite);
 		}
 		
 	}

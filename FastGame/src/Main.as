@@ -1,10 +1,10 @@
 package
 {
 	import com.fivelephants.engine.GameApp;
+	import com.fivelephants.engine.GameObject;
 	import com.fivelephants.engine.GameScene;
 	import com.fivelephants.engine.components.Animation;
 	import com.fivelephants.engine.components.SpriteRenderer;
-	import com.fivelephants.engine.game_objects.GameObject;
 	import com.sibirjak.asdpc.treeview.TreeView;
 	
 	import flash.display.DisplayObjectContainer;
@@ -55,6 +55,21 @@ package
 			GameApp.getInstance().init();
 			
 			addChild(GameApp.getInstance());
+			
+			// TEST
+			var mainScene:GameScene = new GameScene();
+			GameApp.getInstance().scene = mainScene;
+			
+			var bullet:GameObject = new GameObject();
+			//bullet.addComponent(SpriteRenderer);
+			//bullet.addComponent(SpriteRenderer);
+			//bullet.addComponent(SpriteRenderer);
+			bullet.addComponent(EnemyBulletScript);
+			
+			bullet.sendMessage("mutafakas","hola");
+			//bullet.update();
+			//bullet.removeComponent(SpriteRenderer);
+			//bullet.removeComponent(SpriteRenderer);
 		}
 		
 		private function deactivate(e:Event):void 

@@ -1,6 +1,5 @@
 package com.fivelephants.engine 
 {
-	import com.fivelephants.engine.game_objects.GameObject;
 	import com.fivelephants.engine.interfaces.IUpdateable;
 	
 	import flash.display.DisplayObject;
@@ -12,6 +11,7 @@ package com.fivelephants.engine
 	 */
 	public class GameScene extends Sprite implements IUpdateable
 	{
+		
 		
 		public function GameScene()
 		{
@@ -25,9 +25,9 @@ package com.fivelephants.engine
 		
 		public function update():void
 		{
-			for (var i:uint = 0; i < numChildren; i++){
+			/*for (var i:uint = 0; i < numChildren; i++){
 				getGameObjectAt(i).update();
-			}
+			}*/
 		}
 		
 		public function draw():void
@@ -53,7 +53,7 @@ package com.fivelephants.engine
 				return child;
 		}
 		
-		public function addGameObject(object:GameObject):void
+		/*public function addGameObject(object:GameObject):void
 		{
 			addChild(object);
 		}
@@ -61,7 +61,7 @@ package com.fivelephants.engine
 		public function addGameObjectAt(object:GameObject, index:int):void
 		{
 			addChildAt(object,index);
-		}
+		}*/
 		
 		public function getGameObjectAt(index:int):GameObject
 		{

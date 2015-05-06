@@ -1,6 +1,6 @@
 package com.fivelephants.engine.scripting 
 {
-	import com.fivelephants.engine.game_objects.GameObject;
+	import com.fivelephants.engine.GameObject;
 	import com.fivelephants.engine.interfaces.IUpdateable;
 
 	/**

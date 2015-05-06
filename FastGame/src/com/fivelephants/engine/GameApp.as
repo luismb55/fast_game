@@ -1,5 +1,7 @@
 package com.fivelephants.engine 
 {
+	import com.fivelephants.engine.components.MonoBehaviour;
+	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -21,13 +23,13 @@ package com.fivelephants.engine
 				throw new Error("GameApp... use getInstance()");
 			} 
 			_instance = this;
+			isPaused = false;
 		}
 
 		public static function getInstance():GameApp
 		{
 			if(!_instance){
 				new GameApp();
-				isPaused = false;
 			} 
 			return _instance;
 		}
@@ -51,6 +53,11 @@ package com.fivelephants.engine
 		{
 			if(_scene != null)
 				_scene.update();
+			
+			for each (var mb:MonoBehaviour in MonoBehaviour.behaviours) 
+			{
+				mb.update();	
+			}
 		}
 		
 		private function draw():void
@@ -59,33 +66,9 @@ package com.fivelephants.engine
 				_scene.draw();
 		}
 		
-		public function set scene(s:GameScene):void
-		{
-			if (s == null || s == _scene)
-				return;
-				
-			if (_scene != null){
-				_scene.removeEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
-				
-				if(contains(_scene))
-					removeChild(_scene);
-			}
-			
-			_scene = s;
-			_scene.init();
-			
-			addChild(_scene);
-			_scene.addEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
-		}
-		
 		protected function onSceneAddedToStage(e:Event):void
 		{
 			GameScene(e.target).init();
-		}
-		
-		public static function get scene():GameScene
-		{
-			return _scene;
 		}
 		
 		public override function addChild(child:DisplayObject):DisplayObject
@@ -102,6 +85,30 @@ package com.fivelephants.engine
 				return child;
 			else
 				return super.addChildAt(child,index);
+		}
+		
+		public function get scene():GameScene
+		{
+			return _scene;
+		}
+		
+		public function set scene(s:GameScene):void
+		{
+			if (s == null || s == _scene)
+				return;
+			
+			if (_scene != null){
+				_scene.removeEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
+				
+				if(contains(_scene))
+					removeChild(_scene);
+			}
+			
+			_scene = s;
+			_scene.init();
+			
+			addChild(_scene);
+			_scene.addEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
 		}
 	}
 
