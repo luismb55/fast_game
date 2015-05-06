@@ -7,7 +7,7 @@ package
 	{
 		private var gameStage:Stage;
 		private var drawableController:DrawableController;
-		private var bgManager:BackgroundManager;
+		private var bgManager:Background;
 		private var player:Player;
 		private var playerBullets:DrawableManager = new DrawableManager(gameStage, PlayerBullet);
 		
@@ -16,7 +16,7 @@ package
 			gameStage = s;
 			drawableController = dc;
 
-			bgManager = new BackgroundManager(gameStage);
+			bgManager = new Background(gameStage);
 			player = new Player(gameStage);
 			
 			drawableController.addDrawable(bgManager);

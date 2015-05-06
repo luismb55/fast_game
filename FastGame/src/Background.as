@@ -1,119 +1,267 @@
-package 
+package
 {
 	import flash.display.MovieClip;
 	import flash.display.Stage;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.utils.ByteArray;
+	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
 	/**
 	 * ...
-	 * @author ...
+	 * @author 3Elephants
 	 */
-	public class Background
+	public class Background extends Drawable
 	{
-		protected var zoneName:String;
-		protected var zoneData:MovieClip;
-		protected var zoneVSpeed:Number;
-		protected var zoneTransition:MovieClip;
+		/*
+		 * Embedded external XML file which contains the background sequence
+		 */
+		[Embed(source="XML/background_sequence.xml", mimeType="application/octet-stream")] 
+		protected const EmbeddedXMLBgSequence:Class;
 		
-		protected var gameStage:Stage;
+		/*
+		 * These are the different background zones available
+		 */
+		public static const ZONE_GROUND:String = "GROUND";
+		public static const ZONE_WATER:String = "WATER";
 		
-		private var hasTransition:Boolean = false;
+		/*
+		 * Defines the background's sequence, which automatically loops
+		 */
+		public static const BACKGROUND_SEQUENCE_USE_XML:Boolean = true;
+		 
+		protected static var BACKGROUND_SEQUENCE:Vector.<Object> = new <Object>[
+			{ "zone" : ZONE_GROUND, "speed" : 1.0 },
+			{ "zone" : ZONE_WATER, "speed" : 1.0 },
+		]; // Initialized with a default sequence (in case XML loader fails)
 		
-		public function Background(zoneName:String, zoneData:MovieClip, zoneVSpeed:Number = 10.0) 
+		/*
+		 * Internal class attributes
+		 */
+		protected var backgroundSequence:Array;
+		protected var backgroundSequenceIndex:uint;
+		
+		protected var backgroundSpeed:Number = 0.0;
+		protected var backgroundInertiaSpeed:Number = 0.0;
+		protected var backgroundInertiaPercent:Number = 50; // 50% inertia
+		
+		private var visibleZoneA:Zone;
+		private var visibleZoneB:Zone;
+		
+		private var nextSet:Boolean = false;
+		private var speedSet:Boolean = false;
+		
+		private var initialized:Boolean = false;
+		
+		/*
+		 * Debug variables
+		 */
+		private var debugLabel:TextField;
+		private var debugLabelText:String = "";
+		
+		public function Background(s:Stage)
 		{
-			this.zoneName = zoneName;
-			this.zoneData = zoneData;
-			this.zoneVSpeed = zoneVSpeed;
+			graphic = new MovieClip();	
+			super(s);
+			
+			// (DEBUG)
+			debugLabel = new TextField();
+			debugLabel.x = debugLabel.y = 0;
+			debugLabel.textColor = 0xffffff;
+			debugLabel.border = true;
+			debugLabel.borderColor = 0x00ff00;
+			debugLabel.width = 185;
+			debugLabel.height = 50;
+			debugLabel.text = "";
+			addChild(debugLabel);
+			// (DEBUG)
 		}
 		
-		public function AddTransitionZone(zoneA:String, zoneB:String):void
-		{
-			var transitionClass:Class;
-			
-			if (zoneTransition && zoneData.contains(zoneTransition)) {
-					zoneData.removeChild(zoneTransition);
-					zoneData.getChildAt(0).y -= zoneTransition.height;
-					
-					zoneTransition = null;
+		/*
+		 * Initializes the first background zone of the sequence
+		 */
+		public override function init():void
+		{	
+			// 1) Reads the embedded XML file to retrieve the sequence (if enabled):
+			if (BACKGROUND_SEQUENCE_USE_XML) {
+				GenerateBackgroundSequenceFromXML();
 			}
 			
-			if (zoneA != zoneB) {
+			// 2) Creates the zones sequence:
+			CreateZonesSequence();
+			
+			// 3) Initializes the first zone of the sequence:
+			var nextIndex:int = (backgroundSequenceIndex + 1) % backgroundSequence.length;
 				
-				Utils.Log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB, Utils.MESSAGE_TYPE_LOG);
+			visibleZoneA = backgroundSequence[backgroundSequenceIndex];
+			
+			Utils.Log("LOADED INITIAL ZONE: " + visibleZoneA.name);
+			UpdateDebugLabelZones(backgroundSequenceIndex);
+			
+			visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
+			
+			visibleZoneA.x = (gameStage.stageWidth - visibleZoneA.width) * 0.5;
+			visibleZoneA.y = -visibleZoneA.height + gameStage.stageHeight;
+			
+			backgroundSpeed = visibleZoneA.vSpeed;
+			backgroundInertiaSpeed = backgroundSequence[nextIndex].vSpeed;
+			
+			visibleZoneB = new Zone("", new MovieClip());
+			
+			graphic.addChild(visibleZoneA.data);
+			graphic.addChild(visibleZoneB.data);
+			
+			initialized = true;
+		}
+		
+		/*
+		 * Creates the background sequence from the read XML data
+		 */
+		protected function GenerateBackgroundSequenceFromXML():void
+		{
+			var byteData:ByteArray = new EmbeddedXMLBgSequence();
+			
+			var xmlParser:XMLParser = new XMLParser();
+			var xmlData:XML = XML(byteData.readUTFBytes(byteData.length));
+			var xmlSequence:Object = xmlParser.ConvertXML2Object(xmlData);
+			
+			if (xmlSequence && xmlSequence.hasOwnProperty("background_sequence")) {
+				BACKGROUND_SEQUENCE = new Vector.<Object>();
 				
-				try {
-					transitionClass = getDefinitionByName("graphics_bg_" 
-					+ zoneA.toLowerCase() + "2" 
-					+ zoneB.toLowerCase()) as Class;
-				} catch (e:Error) {
-					Utils.Log("INVALID ZONE TRANSITION", Utils.MESSAGE_TYPE_ERROR);
+				if (xmlSequence.background_sequence != null) {
+					for (var i:int = 0; i < xmlSequence.background_sequence.zone.length; i++) {
+						var xmlZone:Object = xmlSequence.background_sequence.zone[i];
+						
+						BACKGROUND_SEQUENCE.push( { "zone" : xmlZone.type._text, "speed" : xmlZone.vspeed._text } );
+					}
 				}
-				
-				zoneTransition = (new transitionClass() as MovieClip);
-				zoneData.getChildAt(0).y += zoneTransition.height;
-				zoneTransition.x = 0.0;
-				zoneTransition.y = 0.0;
-				
-				zoneData.addChild(zoneTransition);
-				
-				hasTransition = true;
-			} else {
-				Utils.Log("--> NO TRANSITION ZONE ADDED", Utils.MESSAGE_TYPE_LOG);
 			}
 		}
 		
-		public function get name():String
+		/*
+		 * Creates the different zones needed to perform the sequence
+		 */
+		protected function CreateZonesSequence():void
 		{
-			return zoneName;
+			backgroundSequenceIndex = 0;
+			
+			backgroundSequence = new Array();
+			
+			BACKGROUND_SEQUENCE.forEach(function(zoneObject:Object, i:int, list:Vector.<Object>):void
+				{
+					var zoneClass:Class = getDefinitionByName("graphics_bg_" + zoneObject.zone.toLowerCase()) as Class;
+					backgroundSequence.push(new Zone(zoneObject.zone, 
+						(new zoneClass() as MovieClip), zoneObject.speed));
+				});
 		}
 		
-		public function get data():MovieClip
+		public override function move():void
 		{
-			return zoneData;
+			if (!initialized) return;
+			
+			if (backgroundSpeed != backgroundInertiaSpeed) {
+				if(backgroundSpeed > backgroundInertiaSpeed)
+					backgroundSpeed -= backgroundInertiaSpeed / backgroundInertiaPercent;
+				else
+					backgroundSpeed += backgroundInertiaSpeed / backgroundInertiaPercent;
+					
+				if (Math.abs(backgroundInertiaSpeed - backgroundSpeed) <
+					(backgroundInertiaSpeed / backgroundInertiaPercent)) {
+						backgroundSpeed = backgroundInertiaSpeed;
+					}
+			}
+			
+			UpdateDebugLabelSpeed(backgroundSpeed);
+			
+			if (visibleZoneA && graphic.contains(visibleZoneA.data)) 
+				visibleZoneA.y += backgroundSpeed;
+			if (visibleZoneB && graphic.contains(visibleZoneB.data))
+				visibleZoneB.y += backgroundSpeed;
+			
+			if (!nextSet && visibleZoneA.y > -backgroundSpeed) {
+				backgroundSequenceIndex++;
+				backgroundSequenceIndex %= backgroundSequence.length;
+				
+				if (graphic.contains(visibleZoneB.data)) graphic.removeChild(visibleZoneB.data);
+				
+				var nextIndex:int = (backgroundSequenceIndex + 1) % backgroundSequence.length;
+				
+				visibleZoneB = backgroundSequence[backgroundSequenceIndex];
+				
+				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
+				UpdateDebugLabelZones(backgroundSequenceIndex);
+				
+				visibleZoneB.AddTransitionZone(visibleZoneB.name, backgroundSequence[nextIndex].name);
+				visibleZoneB.x = (gameStage.stageWidth - visibleZoneA.width) * 0.5;
+				visibleZoneB.y = -visibleZoneB.height;
+				
+				graphic.addChild(visibleZoneB.data);
+			
+				nextSet = true;
+			}
+			
+			if (nextSet && visibleZoneB.y > -backgroundSpeed) {
+				backgroundSequenceIndex++;
+				backgroundSequenceIndex %= backgroundSequence.length;
+				
+				if (graphic.contains(visibleZoneA.data)) graphic.removeChild(visibleZoneA.data);
+				
+				nextIndex = (backgroundSequenceIndex + 1) % backgroundSequence.length;
+				
+				visibleZoneA = backgroundSequence[backgroundSequenceIndex];
+				
+				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
+				UpdateDebugLabelZones(backgroundSequenceIndex);
+				
+				visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
+				visibleZoneA.x = (gameStage.stageWidth - visibleZoneA.width) * 0.5;
+				visibleZoneA.y = -visibleZoneA.height;
+				
+				graphic.addChild(visibleZoneA.data);
+				
+				nextSet = false;
+			}
+			
+			nextIndex = (backgroundSequenceIndex + 1) % backgroundSequence.length;
+			
+			if (!speedSet && visibleZoneA.y > (visibleZoneA.height * 0.5)) {
+				backgroundInertiaSpeed = backgroundSequence[nextIndex].vSpeed;
+				speedSet = true;
+			}
+			
+			if (speedSet && visibleZoneB.y > (visibleZoneB.height * 0.5)) {
+				backgroundInertiaSpeed = backgroundSequence[nextIndex].vSpeed;
+				speedSet = false;
+			}
+			
+			// totally temp!:
+			//visibleZoneA.x = (-mouseX + visibleZoneA.width * 0.5) / 10;
+			//visibleZoneB.x = (-mouseX + visibleZoneB.width * 0.5) / 10;
 		}
 		
-		public function get vSpeed():Number
+		public override function isActive():Boolean
 		{
-			return zoneVSpeed;
+			//
+			return true;
 		}
 		
-		public function get transitionData():MovieClip
+		protected function UpdateDebugLabelZones(curIndex:int):void
 		{
-			return zoneTransition;
+			var nextIndex:int = (curIndex + 1) % backgroundSequence.length;
+			
+			debugLabelText = "> CURRENT ZONE: " 
+				+ backgroundSequence[curIndex].name.toLowerCase() 
+				+ " (" + backgroundSequence[curIndex].vSpeed.toString() + " u)";
+			debugLabelText += "\n> UPCOMING ZONE: " 
+				+ backgroundSequence[nextIndex].name.toLowerCase() 
+				+ " (" + backgroundSequence[nextIndex].vSpeed.toString() + " u)";
 		}
 		
-		public function get height():Number
+		protected function UpdateDebugLabelSpeed(speed:Number):void
 		{
-			return data.height;
-		}
-		
-		public function get width():Number
-		{
-			return data.width;
-		}
-		
-		public function get x():Number
-		{
-			return data.x;
-		}
-		
-		public function get y():Number
-		{
-			return data.y;
-		}
-		
-		public function set x(value:Number):void
-		{
-			data.x = value;
-		}
-		
-		public function set y(value:Number):void
-		{
-			data.y = value;
-		}
-		
-		public function set vSpeed(value:Number):void
-		{
-			zoneVSpeed = value;
+			debugLabel.text = debugLabelText 
+				+ "\n> CURRENT SPEED: " 
+				+ Utils.RoundToPrecision(speed, 10) + " u";
 		}
 	}
 }
