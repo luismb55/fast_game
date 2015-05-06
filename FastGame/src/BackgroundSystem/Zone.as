@@ -1,8 +1,9 @@
-package 
+package BackgroundSystem 
 {
 	import flash.display.MovieClip;
 	import flash.display.Stage;
 	import flash.utils.getDefinitionByName;
+	import Utils.Tools;
 	/**
 	 * ...
 	 * @author ...
@@ -38,14 +39,14 @@ package
 			
 			if (zoneA != zoneB) {
 				
-				Utils.Log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB, Utils.MESSAGE_TYPE_LOG);
+				Utils.Tools.Log("--> ADDED NEXT TRANSITION FROM " + zoneA + " TO " + zoneB, Utils.Tools.MESSAGE_TYPE_LOG);
 				
 				try {
 					transitionClass = getDefinitionByName("graphics_bg_" 
 					+ zoneA.toLowerCase() + "2" 
 					+ zoneB.toLowerCase()) as Class;
 				} catch (e:Error) {
-					Utils.Log("INVALID ZONE TRANSITION", Utils.MESSAGE_TYPE_ERROR);
+					Utils.Tools.Log("INVALID ZONE TRANSITION", Utils.Tools.MESSAGE_TYPE_ERROR);
 				}
 				
 				zoneTransition = (new transitionClass() as MovieClip);
@@ -58,7 +59,7 @@ package
 				
 				hasTransition = true;
 			} else {
-				Utils.Log("--> NO TRANSITION ZONE ADDED", Utils.MESSAGE_TYPE_LOG);
+				Utils.Tools.Log("--> NO TRANSITION ZONE ADDED", Utils.Tools.MESSAGE_TYPE_LOG);
 			}
 		}
 		

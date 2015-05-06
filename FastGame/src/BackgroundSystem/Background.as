@@ -1,5 +1,6 @@
-package
+package BackgroundSystem
 {
+	import Utils.Tools;
 	import flash.display.MovieClip;
 	import flash.display.Stage;
 	import flash.text.TextField;
@@ -7,6 +8,7 @@ package
 	import flash.utils.ByteArray;
 	import flash.utils.Dictionary;
 	import flash.utils.getDefinitionByName;
+	import Utils.XMLParser;
 	/**
 	 * ...
 	 * @author 3Elephants
@@ -16,7 +18,7 @@ package
 		/*
 		 * Embedded external XML file which contains the background sequence
 		 */
-		[Embed(source="XML/background_sequence.xml", mimeType="application/octet-stream")] 
+		[Embed(source="../XML/background_sequence.xml", mimeType="application/octet-stream")] 
 		protected const EmbeddedXMLBgSequence:Class;
 		
 		/*
@@ -95,7 +97,7 @@ package
 				
 			visibleZoneA = backgroundSequence[backgroundSequenceIndex];
 			
-			Utils.Log("LOADED INITIAL ZONE: " + visibleZoneA.name);
+			Utils.Tools.Log("LOADED INITIAL ZONE: " + visibleZoneA.name);
 			UpdateDebugLabelZones(backgroundSequenceIndex);
 			
 			visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
@@ -188,7 +190,7 @@ package
 				
 				visibleZoneB = backgroundSequence[backgroundSequenceIndex];
 				
-				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
+				Utils.Tools.Log("LOADED UPCOMING ZONE: " + visibleZoneB.name);
 				UpdateDebugLabelZones(backgroundSequenceIndex);
 				
 				visibleZoneB.AddTransitionZone(visibleZoneB.name, backgroundSequence[nextIndex].name);
@@ -210,7 +212,7 @@ package
 				
 				visibleZoneA = backgroundSequence[backgroundSequenceIndex];
 				
-				Utils.Log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
+				Utils.Tools.Log("LOADED UPCOMING ZONE: " + visibleZoneA.name);
 				UpdateDebugLabelZones(backgroundSequenceIndex);
 				
 				visibleZoneA.AddTransitionZone(visibleZoneA.name, backgroundSequence[nextIndex].name);
@@ -261,7 +263,7 @@ package
 		{
 			debugLabel.text = debugLabelText 
 				+ "\n> CURRENT SPEED: " 
-				+ Utils.RoundToPrecision(speed, 10) + " u";
+				+ Utils.Tools.RoundToPrecision(speed, 10) + " u";
 		}
 	}
 }

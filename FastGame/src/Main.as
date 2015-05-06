@@ -7,6 +7,8 @@ package
 	import flash.display.StageScaleMode;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
+	import Utils.DynamicProperty;
+	import Utils.Enum;
 	
 	/**
 	 * ...
@@ -31,6 +33,9 @@ package
 			gameController = new GameController(stage, drawableController);
 
 			init();
+			
+			var enum:Enum = new Enum("HOLA", "QUE", "TAL");
+			//trace((enum["HOLA"] as DynamicProperty).value);
 		}
 		
 		private function deactivate(e:Event):void 

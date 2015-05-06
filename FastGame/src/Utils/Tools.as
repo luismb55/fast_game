@@ -1,10 +1,10 @@
-package 
+package Utils 
 {
 	/**
 	 * ...
 	 * @author 3Elephants
 	 */
-	public class Utils 
+	public class Tools 
 	{
 		public static const MESSAGE_TYPE_LOG:String = "LOG";
 		public static const MESSAGE_TYPE_ERROR:String = "ERROR";

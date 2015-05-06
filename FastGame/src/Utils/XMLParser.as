@@ -1,4 +1,4 @@
-package 
+package Utils 
 {
 	import flash.events.Event;
 	import flash.net.URLLoader;
@@ -34,7 +34,7 @@ package
 				loader.addEventListener(Event.COMPLETE, OnXMLDocumentLoaded);
 				
 			} catch (e:IOError) {
-				Utils.Log("The background sequence XML file cannot be read", Utils.MESSAGE_TYPE_LOG);
+				("The background sequence XML file cannot be read", Tools.MESSAGE_TYPE_ERROR);
 			}
 		}
 		
@@ -60,7 +60,7 @@ package
 		 */
 		private function OnXMLDocumentLoaded(e:Event):void
 		{
-			Utils.Log("XML file '" + c_url + "' successfully loaded!");
+			Tools.Log("XML file '" + c_url + "' successfully loaded!");
 			
 			xml = XML(loader.data);
 			

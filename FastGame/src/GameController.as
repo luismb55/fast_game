@@ -2,6 +2,7 @@ package
 {
 	import flash.display.Stage;
 	import flash.events.MouseEvent;
+	import BackgroundSystem.Background;
 	
 	public class GameController
 	{
