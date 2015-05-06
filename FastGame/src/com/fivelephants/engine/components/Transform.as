@@ -10,6 +10,8 @@ package com.fivelephants.engine.components
 		public var direction:Point = new Point(0, 0);
 		public var scale:Point = new Point(1.0, 1.0);
 		
+		protected var _parent:Transform;
+		
 		public function Transform()
 		{
 			super();
@@ -17,6 +19,28 @@ package com.fivelephants.engine.components
 			position = new Point(0, 0);
 			direction = new Point(0, 0);
 			scale = new Point(1.0, 1.0);
+		}
+		
+		/** Set the parent of the transform. 
+		 * 
+		 * If true, the parent-relative position, scale and rotation is modified such that the object keeps the same world space position, rotation and scale as before.
+		 * 
+		 * */
+		public function set parent(p:Transform, worldPositionStays:Boolean = false):void
+		{
+			_parent = p;
+			
+			if (worldPositionStays){ // TODO CHECK
+				/*_parent.position = p.position.add(position);
+				direction = p.direction.add(direction);
+				scale = p.scale.add(scale);*/
+			}
+		}
+		
+		/** The parent of the transform. */
+		public function get parent():Transform
+		{
+			return _parent;
 		}
 		
 		/*childCount	The number of children the Transform has.
@@ -29,7 +53,6 @@ package com.fivelephants.engine.components
 		localScale	The scale of the transform relative to the parent.
 		localToWorldMatrix	Matrix that transforms a point from local space into world space (Read Only).
 		lossyScale	The global scale of the object (Read Only).
-		parent	The parent of the transform.
 		position	The position of the transform in world space.
 		right	The red axis of the transform in world space.
 		root	Returns the topmost transform in the hierarchy.
@@ -50,7 +73,7 @@ package com.fivelephants.engine.components
 		RotateAround	Rotates the transform about axis passing through point in world coordinates by angle degrees.
 		SetAsFirstSibling	Move the transform to the start of the local transfrom list.
 		SetAsLastSibling	Move the transform to the end of the local transfrom list.
-		SetParent	Set the parent of the transform.
+		//SetParent	Set the parent of the transform.
 		SetSiblingIndex	Sets the sibling index.
 		TransformDirection	Transforms direction from local space to world space.
 		TransformPoint	Transforms position from local space to world space.
