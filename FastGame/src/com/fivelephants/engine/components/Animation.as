@@ -1,6 +1,6 @@
-package engine.components 
+package com.fivelephants.engine.components 
 {
-	import engine.interfaces.IDisposable;
+	import com.fivelephants.engine.interfaces.IDisposable;
 	
 	import flash.display.MovieClip;
 	import flash.display.Sprite;

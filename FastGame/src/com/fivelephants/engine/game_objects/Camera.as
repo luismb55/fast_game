@@ -1,4 +1,4 @@
-package engine.game_objects
+package com.fivelephants.engine.game_objects
 {
 	public class Camera extends GameObject
 	{

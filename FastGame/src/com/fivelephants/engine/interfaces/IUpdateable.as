@@ -1,4 +1,4 @@
-package engine.interfaces
+package com.fivelephants.engine.interfaces
 {
 	public interface IUpdateable
 	{

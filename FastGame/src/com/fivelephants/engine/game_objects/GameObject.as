@@ -1,9 +1,9 @@
-package engine.game_objects 
+package com.fivelephants.engine.game_objects 
 {
-	import engine.components.BaseComponent;
-	import engine.interfaces.IDisposable;
-	import engine.interfaces.IUpdateable;
-	import engine.scripting.BaseScript;
+	import com.fivelephants.engine.components.BaseComponent;
+	import com.fivelephants.engine.interfaces.IDisposable;
+	import com.fivelephants.engine.interfaces.IUpdateable;
+	import com.fivelephants.engine.scripting.BaseScript;
 	
 	import flash.display.Sprite;
 

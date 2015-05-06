@@ -1,7 +1,7 @@
-package engine 
+package com.fivelephants.engine 
 {
-	import engine.game_objects.GameObject;
-	import engine.interfaces.IUpdateable;
+	import com.fivelephants.engine.game_objects.GameObject;
+	import com.fivelephants.engine.interfaces.IUpdateable;
 	
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -10,12 +10,17 @@ package engine
 	 * ...
 	 * @author ...
 	 */
-	public class Scene extends Sprite implements IUpdateable
+	public class GameScene extends Sprite implements IUpdateable
 	{
 		
-		public function Scene()
+		public function GameScene()
 		{
 			super();
+		}
+		
+		public function init():void
+		{
+			
 		}
 		
 		public function update():void

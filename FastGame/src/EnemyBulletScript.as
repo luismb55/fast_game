@@ -1,7 +1,7 @@
 package 
 {
-	import engine.components.SpriteRenderer;
-	import engine.scripting.BaseScript;
+	import com.fivelephants.engine.components.SpriteRenderer;
+	import com.fivelephants.engine.scripting.BaseScript;
 	
 	/**
 	 * ...

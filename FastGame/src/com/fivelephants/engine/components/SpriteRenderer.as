@@ -1,7 +1,7 @@
-package engine.components 
+package com.fivelephants.engine.components 
 {
 	import flash.display.Sprite;
-	import engine.game_objects.GameObject;
+	import com.fivelephants.engine.game_objects.GameObject;
 	/**
 	 * ...
 	 * @author Luis Miguel Blanco

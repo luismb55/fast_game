@@ -1,7 +1,7 @@
-package engine.scripting 
+package com.fivelephants.engine.scripting 
 {
-	import engine.game_objects.GameObject;
-	import engine.interfaces.IUpdateable;
+	import com.fivelephants.engine.game_objects.GameObject;
+	import com.fivelephants.engine.interfaces.IUpdateable;
 
 	/**
 	 * ...

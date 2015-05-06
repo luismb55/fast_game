@@ -1,7 +1,7 @@
-package engine.components 
+package com.fivelephants.engine.components 
 {
-	import engine.game_objects.GameObject;
-	import engine.interfaces.IUpdateable;
+	import com.fivelephants.engine.game_objects.GameObject;
+	import com.fivelephants.engine.interfaces.IUpdateable;
 
 	/**
 	 * ...

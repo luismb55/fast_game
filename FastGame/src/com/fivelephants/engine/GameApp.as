@@ -1,4 +1,4 @@
-package engine 
+package com.fivelephants.engine 
 {
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -12,7 +12,7 @@ package engine
 	public class GameApp extends Sprite 
 	{
 		private static var _instance:GameApp;
-		protected static var _scene:Scene;
+		protected static var _scene:GameScene;
 	
 		private static var isPaused:Boolean;
 		
@@ -49,28 +49,41 @@ package engine
 		
 		private function update():void
 		{
-			_scene.update();
+			if(_scene != null)
+				_scene.update();
 		}
 		
 		private function draw():void
 		{
-			_scene.draw();
+			if(_scene != null)
+				_scene.draw();
 		}
 		
-		public static function set scene(s:Scene):void
+		public function set scene(s:GameScene):void
 		{
-			if (s == null)
+			if (s == null || s == _scene)
 				return;
 				
-			if (_scene != null && s != _scene && GameApp.getInstance().contains(_scene))
-				GameApp.getInstance().removeChild(_scene);
+			if (_scene != null){
+				_scene.removeEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
 				
-			_scene = s;
+				if(contains(_scene))
+					removeChild(_scene);
+			}
 			
-			GameApp.getInstance().addChild(_scene);
+			_scene = s;
+			_scene.init();
+			
+			addChild(_scene);
+			_scene.addEventListener(Event.ADDED_TO_STAGE, onSceneAddedToStage);
 		}
 		
-		public static function get scene():Scene
+		protected function onSceneAddedToStage(e:Event):void
+		{
+			GameScene(e.target).init();
+		}
+		
+		public static function get scene():GameScene
 		{
 			return _scene;
 		}
