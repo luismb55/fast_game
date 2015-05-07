@@ -25,7 +25,7 @@ package
 					return instances[i];
 				}
 			}
-			trace("Creating new " + class_);
+			trace("Creating new " + class_ + " with " + gameStage);
 			var result:Drawable = new class_(gameStage) as Drawable;
 			instances.push(result);
 			return result;
