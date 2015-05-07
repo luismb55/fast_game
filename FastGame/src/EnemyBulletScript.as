@@ -32,7 +32,9 @@ package
 				_spriteRenderer.update();
 			}*/
 			
-			gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
+			//gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
+			//gameObject.transform.localPosition = gameObject.transform.position.add(new Point(0.3,0.3));
+			//gameObject.transform.rotation += 0.29;
 			//trace("enemy bullet script update");
 		}
 		

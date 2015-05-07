@@ -7,10 +7,12 @@ package com.fivelephants.engine.components
 	public class Transform extends Component
 	{
 		private var _position:Point;
-		private var _direction:Point;
+		//private var _direction:Point;
+		private var _rotation:Number;
 		private var _scale:Point;
 		private var _localPosition:Point;
-		private var _localDirection:Point;
+		//private var _localDirection:Point;
+		private var _localRotation:Number;
 		private var _localScale:Point;
 		
 		protected var _parent:Transform;
@@ -22,10 +24,12 @@ package com.fivelephants.engine.components
 			super();
 			
 			_position = new Point(0, 0);
-			_direction = new Point(0, 0);
+			//_direction = new Point(0, 0);
+			_rotation = 0;
 			_scale = new Point(1.0, 1.0);
 			_localPosition = new Point(0, 0);
-			_localDirection = new Point(0, 0);
+			_localRotation = 0;
+			//_localDirection = new Point(0, 0);
 			_localScale = new Point(1.0, 1.0);
 		}
 		
@@ -43,9 +47,14 @@ package com.fivelephants.engine.components
 			_parent._children.push(this);
 			
 			if (worldPositionStays){ // TODO CHECK
+				//_localPosition
 				/*_parent.position = p.position.add(position);
 				direction = p.direction.add(direction);
 				scale = p.scale.add(scale);*/
+			}else{
+				localPosition = _position;
+				
+				// TODO calculate global
 			}
 		}
 		
@@ -65,15 +74,27 @@ package com.fivelephants.engine.components
 			var delta:Point = value.subtract(_position);
 			_position = value;
 			
-			// WRONG
-			//_localPosition = _parent != null ? _position.subtract(_parent.position) : _position;
-			
-			for (var i:int = 0; i < _children.length; i++){
-				_children[i].position = _children[i].position.add(delta);	
+			//convert degrees to rads
+			var rads:Number = _rotation / 180 * Math.PI;
+			//get the vector, I am using a point
+			var p:Point = new Point();
+			p.x = delta.x*Math.cos(rads) - delta.y*Math.sin(rads);
+			p.y = delta.x*Math.sin(rads) + delta.y*Math.cos(rads);
+				
+			// update position of children
+			for(var i:int = 0; i < _children.length; i++){
+				
+				_children[i]._position = _children[i]._position.add(p);
 			}
+			
+			// update local
+			if(_parent != null)
+				_localPosition = _position.subtract(_parent._position);	
+			else
+				_localPosition = _position;			
 		}
 		
-		public function get direction():Point 
+		/*public function get direction():Point 
 		{
 			return _direction;
 		}
@@ -81,6 +102,40 @@ package com.fivelephants.engine.components
 		public function set direction(value:Point):void 
 		{
 			_direction = value;
+		}*/
+		
+		public function get rotation():Number 
+		{
+			return _rotation;
+		}
+		
+		public function set rotation(value:Number):void 
+		{			
+			var delta:Number = value - _rotation;
+			_rotation = value;
+			
+			//convert degrees to rads
+			var rads:Number = delta / 180 * Math.PI;
+			//get the vector, I am using a point
+			var p:Point;
+			
+			// update rotation  and position of children
+			for(var i:int = 0; i < _children.length; i++){
+				p = new Point();
+				p.x = _children[i]._localPosition.x*Math.cos(rads) - _children[i]._localPosition.y*Math.sin(rads);
+				p.y = _children[i]._localPosition.x*Math.sin(rads) + _children[i]._localPosition.y*Math.cos(rads);
+				
+				
+				_children[i].localPosition = p;//_children[i]._position.add(p); // position setter
+				_children[i]._rotation += delta;// position setter
+			}
+			
+			// update local rotation
+			if(_parent != null)
+				_localRotation = _rotation - _parent._rotation;	
+			else
+				_localRotation = _rotation;
+			
 		}
 		
 		public function get scale():Point 
@@ -100,17 +155,37 @@ package com.fivelephants.engine.components
 		
 		public function set localPosition(value:Point):void 
 		{
-			var delta:Point = value.subtract(_localPosition);
-			_localPosition = value;
+			//var delta:Point = value.subtract(_localPosition);
+			//_localPosition = value;
+		
+			if(_parent != null){
+				_position = _parent.position.add(_localPosition).add(value);//_localPosition.add(value);//value.subtract(_parent.position);
+				_localPosition = _localPosition.add(value);
+			}else
+				_position = value;
 			
-			_position = _position.add(delta);
 			
-			for (var i:int = 0; i < _children.length; i++){
-				_children[i].localPosition = _children[i].localPosition.add(delta);	
-			}
+			// update global position with setter
+			/*if(_parent != null)
+				_localPosition = _position.subtract(_parent._position);	
+			else
+				_localPosition = _position;*/
+			
+			
+			
 		}
 		
-		public function get localDirection():Point 
+		public function get localRotation():Number 
+		{
+			return _localRotation;
+		}
+		
+		public function set localRotation(value:Number):void 
+		{
+			_localRotation = value;
+		}
+		
+		/*public function get localDirection():Point 
 		{
 			return _localDirection;
 		}
@@ -118,7 +193,7 @@ package com.fivelephants.engine.components
 		public function set localDirection(value:Point):void 
 		{
 			_localDirection = value;
-		}
+		}*/
 		
 		public function get localScale():Point 
 		{

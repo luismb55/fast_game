@@ -29,7 +29,7 @@ package com.fivelephants.engine
 		protected var components:Vector.<Component> = new Vector.<Component>();
 		
 		// My own thing
-		public var display:Sprite = new Sprite(); // 
+		public var display:Sprite;
 		
 		public function GameObject() 
 		{
@@ -37,7 +37,7 @@ package com.fivelephants.engine
 			transform.gameObject = this;
 			components = new Vector.<Component>();
 			
-			display = new graphic_enemy_0();
+			//display = new graphic_enemy_0();
 			// TODO AUTO ADD TO STAGE
 			GameApp.getInstance().scene.addGameObject(this);
 		}
@@ -56,8 +56,9 @@ package com.fivelephants.engine
 			if(display){
 				display.scaleX = transform.scale.x;
 				display.scaleY = transform.scale.y;
-				display.rotationX = transform.direction.x;
-				display.rotationY = transform.direction.y;
+				//display.rotationX = transform.direction.x;
+				//display.rotationY = transform.direction.y;
+				display.rotation = transform.rotation;
 				display.x = transform.position.x;
 				display.y = transform.position.y;
 			}
