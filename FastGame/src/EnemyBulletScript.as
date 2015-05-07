@@ -3,6 +3,7 @@ package
 	import com.fivelephants.engine.components.MonoBehaviour;
 	import com.fivelephants.engine.components.SpriteRenderer;
 	import com.fivelephants.engine.scripting.BaseScript;
+	import flash.geom.Point;
 	
 	/**
 	 * ...
@@ -31,9 +32,7 @@ package
 				_spriteRenderer.update();
 			}*/
 			
-			gameObject.transform.position.x += 10;
-			gameObject.transform.position.y += 10;
-			
+			gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
 			//trace("enemy bullet script update");
 		}
 		
@@ -42,5 +41,4 @@ package
 			trace("mutafakas",object);
 		}
 	}
-
 }

@@ -60,13 +60,17 @@ package
 			var mainScene:GameScene = new GameScene();
 			GameApp.getInstance().scene = mainScene;
 			
-			var bullet:GameObject = new GameObject();
+			var enemy:GameObject = new GameObject();
 			//bullet.addComponent(SpriteRenderer);
 			//bullet.addComponent(SpriteRenderer);
 			//bullet.addComponent(SpriteRenderer);
-			bullet.addComponent(EnemyBulletScript);
+			enemy.addComponent(EnemyBulletScript);
 			
-			bullet.sendMessage("mutafakas","hola");
+			enemy.sendMessage("mutafakas", "hola");
+			
+			var bullet:GameObject = new GameObject();
+			bullet.display = new graphic_enemy_2();
+			bullet.transform.setParent(enemy.transform);
 			//bullet.update();
 			//bullet.removeComponent(SpriteRenderer);
 			//bullet.removeComponent(SpriteRenderer);

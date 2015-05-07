@@ -6,19 +6,27 @@ package com.fivelephants.engine.components
 	
 	public class Transform extends Component
 	{
-		public var position:Point = new Point(0, 0);
-		public var direction:Point = new Point(0, 0);
-		public var scale:Point = new Point(1.0, 1.0);
+		private var _position:Point;
+		private var _direction:Point;
+		private var _scale:Point;
+		private var _localPosition:Point;
+		private var _localDirection:Point;
+		private var _localScale:Point;
 		
 		protected var _parent:Transform;
+		private var _children:Vector.<Transform> = new Vector.<Transform>();
+		protected var _siblings:Vector.<Transform> = new Vector.<Transform>();
 		
 		public function Transform()
 		{
 			super();
 			
-			position = new Point(0, 0);
-			direction = new Point(0, 0);
-			scale = new Point(1.0, 1.0);
+			_position = new Point(0, 0);
+			_direction = new Point(0, 0);
+			_scale = new Point(1.0, 1.0);
+			_localPosition = new Point(0, 0);
+			_localDirection = new Point(0, 0);
+			_localScale = new Point(1.0, 1.0);
 		}
 		
 		/** Set the parent of the transform. 
@@ -26,9 +34,13 @@ package com.fivelephants.engine.components
 		 * If true, the parent-relative position, scale and rotation is modified such that the object keeps the same world space position, rotation and scale as before.
 		 * 
 		 * */
-		public function set parent(p:Transform, worldPositionStays:Boolean = false):void
+		public function setParent(p:Transform, worldPositionStays:Boolean = false):void
 		{
 			_parent = p;
+			
+			// TODO child and siblins
+			_siblings.concat(_parent._children);
+			_parent._children.push(this);
 			
 			if (worldPositionStays){ // TODO CHECK
 				/*_parent.position = p.position.add(position);
@@ -42,6 +54,92 @@ package com.fivelephants.engine.components
 		{
 			return _parent;
 		}
+		
+		public function get position():Point 
+		{
+			return _position;
+		}
+		
+		public function set position(value:Point):void 
+		{
+			var delta:Point = value.subtract(_position);
+			_position = value;
+			
+			// WRONG
+			//_localPosition = _parent != null ? _position.subtract(_parent.position) : _position;
+			
+			for (var i:int = 0; i < _children.length; i++){
+				_children[i].position = _children[i].position.add(delta);	
+			}
+		}
+		
+		public function get direction():Point 
+		{
+			return _direction;
+		}
+		
+		public function set direction(value:Point):void 
+		{
+			_direction = value;
+		}
+		
+		public function get scale():Point 
+		{
+			return _scale;
+		}
+		
+		public function set scale(value:Point):void 
+		{
+			_scale = value;
+		}
+		
+		public function get localPosition():Point 
+		{
+			return _localPosition;
+		}
+		
+		public function set localPosition(value:Point):void 
+		{
+			var delta:Point = value.subtract(_localPosition);
+			_localPosition = value;
+			
+			_position = _position.add(delta);
+			
+			for (var i:int = 0; i < _children.length; i++){
+				_children[i].localPosition = _children[i].localPosition.add(delta);	
+			}
+		}
+		
+		public function get localDirection():Point 
+		{
+			return _localDirection;
+		}
+		
+		public function set localDirection(value:Point):void 
+		{
+			_localDirection = value;
+		}
+		
+		public function get localScale():Point 
+		{
+			return _localScale;
+		}
+		
+		public function set localScale(value:Point):void 
+		{
+			_localScale = value;
+		}
+		
+		public function get children():Vector.<Transform> 
+		{
+			return _children;
+		}
+		
+		// when global changes, lcoal changes
+		
+		// TODO when local pos changed: update children pos
+		// TODO when local scale changed: update children scale and pos
+		// TODO when local rotation changed: update children rotation and pos
 		
 		/*childCount	The number of children the Transform has.
 		eulerAngles	The rotation as Euler angles in degrees.

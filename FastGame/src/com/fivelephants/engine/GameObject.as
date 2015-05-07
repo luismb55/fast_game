@@ -34,9 +34,12 @@ package com.fivelephants.engine
 		public function GameObject() 
 		{
 			transform = new Transform();
+			transform.gameObject = this;
 			components = new Vector.<Component>();
 			
+			display = new graphic_enemy_0();
 			// TODO AUTO ADD TO STAGE
+			GameApp.getInstance().scene.addGameObject(this);
 		}
 		
 		final public function update():void
@@ -58,6 +61,11 @@ package com.fivelephants.engine
 				display.x = transform.position.x;
 				display.y = transform.position.y;
 			}
+			
+			for each(var child:Transform in transform.children){
+				child.gameObject.draw();
+			}
+			
 		}
 		
 		protected override function destroy():void
