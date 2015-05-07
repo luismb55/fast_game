@@ -6,6 +6,7 @@ package
 	import com.fivelephants.engine.components.Animation;
 	import com.fivelephants.engine.components.SpriteRenderer;
 	import com.sibirjak.asdpc.treeview.TreeView;
+	import flash.geom.Point;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
@@ -61,20 +62,23 @@ package
 			GameApp.getInstance().scene = mainScene;
 			
 			var enemy1:Enemy01 = new Enemy01();
-			enemy1.transform.position.x = 50;
-			enemy1.transform.position.y = 50;
-			//bullet.addComponent(SpriteRenderer);
-			//bullet.addComponent(SpriteRenderer);
-			//bullet.addComponent(SpriteRenderer);
+			enemy1.transform.position = new Point(150, 150);
 			enemy1.addComponent(EnemyBulletScript);
 			
 			enemy1.sendMessage("mutafakas", "hola");
 			
 			var enemy2:Enemy02 = new Enemy02();
-			enemy2.transform.position.x = 300;
-			enemy2.transform.position.y = 300;
+			enemy2.transform.position = new Point(300, 300);
+			enemy2.transform.rotation = 90;
+			//enemy2.addComponent(EnemyBulletScript);
 			enemy2.transform.setParent(enemy1.transform);
 			
+			var enemy3:Enemy03 = new Enemy03();
+			enemy3.transform.position = new Point(450, 450);
+			enemy3.transform.rotation = 90;
+			enemy3.transform.setParent(enemy2.transform);
+			//enemy3.addComponent(EnemyBulletScript);
+
 			//enemy2.addComponent(EnemyBulletScript);
 			
 			//bullet.update();
