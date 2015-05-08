@@ -8,11 +8,9 @@ package com.fivelephants.engine.components
 	public class Transform extends Component
 	{
 		private var _position:Point;
-		//private var _direction:Point;
 		private var _rotation:Number;
 		private var _scale:Point;
 		private var _localPosition:Point;
-		//private var _localDirection:Point;
 		private var _localRotation:Number;
 		private var _localScale:Point;
 		
@@ -25,12 +23,10 @@ package com.fivelephants.engine.components
 			super();
 			
 			_position = new Point(0, 0);
-			//_direction = new Point(0, 0);
 			_rotation = 0;
 			_scale = new Point(1.0, 1.0);
 			_localPosition = new Point(0, 0);
 			_localRotation = 0;
-			//_localDirection = new Point(0, 0);
 			_localScale = new Point(1.0, 1.0);
 		}
 		
@@ -50,6 +46,9 @@ package com.fivelephants.engine.components
 			
 			_siblings.concat(_parent._children);
 			_parent._children.push(this);
+			
+			
+			scale = _parent.scale;
 			
 			if (worldPositionStays) { // TODO CHECK
 				position = _localPosition;
@@ -75,13 +74,21 @@ package com.fivelephants.engine.components
 			_position = value;
 			
 			// update local position
-			_localPosition = _parent != null ? _localPosition = _position.subtract(_parent._position) :_position;
+			//_localPosition = _parent != null ? _localPosition = _position.subtract(_parent._position) :_position;
+			//
+			if(_parent != null){
+				var tempPos:Point = _position.subtract(_parent.position);
+				_localPosition = new Point(tempPos.x/_parent.scale.x,tempPos.y/_parent.scale.y);
+			}else{
+				_localPosition = _position;
+			}
 			
 			// update children position
 			var child:Transform;
 			for(var i:int = 0; i < _children.length; i++){
 				child = _children[i];	
-				child.position = _position.add(child._localPosition);
+				//child.position = _position.add(child._localPosition);
+				child.position = _position.add(new Point(child._localPosition.x*scale.x,child._localPosition.y*scale.y));
 			}	
 		}
 
@@ -130,7 +137,19 @@ package com.fivelephants.engine.components
 		
 		public function set scale(value:Point):void 
 		{
+			// set scale
 			_scale = value;
+			
+			// update local scale
+			_localScale = _parent != null ?  new Point(_scale.x/_parent.scale.x,_scale.y/_parent.scale.y) : _scale;
+			
+			// update children position and scale
+			var child:Transform;
+			for(var i:int = 0; i < _children.length; i++){
+				child = _children[i];
+				child.position = position.add(new Point(child._localPosition.x*_scale.x,child._localPosition.y*_scale.y));
+				child.scale = new Point(_scale.x*child._localScale.x,_scale.y*child._localScale.y);//add(child._scale);
+			}
 		}
 		
 		public function get localPosition():Point 
@@ -144,7 +163,13 @@ package com.fivelephants.engine.components
 			_localPosition = value;
 			
 			// update global position
-			_position = _parent != null ? _parent._position.add(_localPosition) : _localPosition;
+			//_position = _parent != null ? _parent._position.add(_localPosition) : _localPosition;
+			
+			if(_parent != null){
+				_position = _parent.position.add(new Point(_localPosition.x*_parent.scale.x,_localPosition.y*_parent.scale.y));
+			}else{
+				_position = _localPosition;
+			}
 			
 			// update children position
 			var child:Transform;
@@ -162,7 +187,21 @@ package com.fivelephants.engine.components
 		
 		public function set localRotation(value:Number):void 
 		{
+			var delta:Number = value - _localRotation;
+			
+			// set rotation
 			_localRotation = value;
+			
+			// update local rotation
+			_rotation = _parent != null ? _parent.rotation + _localRotation : _localRotation;
+			
+			// update children position and rotation
+			var child:Transform;
+			for(var i:int = 0; i < _children.length; i++){
+				child = _children[i];	
+				child.position = _position.add(rotatePoint(child._localPosition, delta));
+				child.rotation = _rotation + child._localRotation;
+			}
 		}
 	
 		public function get localScale():Point 

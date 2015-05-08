@@ -32,9 +32,10 @@ package com.fivelephants.fastgame.assets.scripts
 				_spriteRenderer.update();
 			}*/
 			
-			gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
-			gameObject.transform.localPosition = gameObject.transform.localPosition.add(new Point(0.3,0.3));
-			gameObject.transform.rotation = gameObject.transform.rotation + 0.29;
+			//gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
+			//gameObject.transform.localPosition = gameObject.transform.localPosition.add(new Point(0.3,0.3));
+			//gameObject.transform.rotation = gameObject.transform.rotation + 0.29;
+			gameObject.transform.scale = gameObject.transform.scale.subtract(new Point(0.005,0.005));
 			//trace("enemy bullet script update");
 		}
 		

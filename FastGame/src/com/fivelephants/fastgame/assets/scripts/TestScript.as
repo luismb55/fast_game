@@ -16,7 +16,8 @@ package com.fivelephants.fastgame.assets.scripts
 			if(_gameObject == null)
 				return;
 			
-			gameObject.transform.localPosition = gameObject.transform.localPosition.add(new Point(0.3,0.3));
+			//gameObject.transform.localPosition = gameObject.transform.localPosition.add(new Point(0.3,0.3));
+			//gameObject.transform.localRotation += 5;
 		}
 		
 	}
