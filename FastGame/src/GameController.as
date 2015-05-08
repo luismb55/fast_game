@@ -35,7 +35,7 @@ package
 		
 		}
 		
-		protected function onEnterFrame(e:Event)
+		protected function onEnterFrame(e:Event):void
 		{
 			frameCount++;
 			if (frameCount % 25 == 0)

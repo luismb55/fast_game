@@ -7,6 +7,7 @@ package
 	import flash.display.StageScaleMode;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
+	import MessageSystem.Message;
 	
 	/**
 	 * ...
@@ -31,6 +32,8 @@ package
 			gameController = new GameController(stage, drawableController);
 
 			init();
+			
+			var m:Message = new Message();
 		}
 		
 		private function deactivate(e:Event):void 
