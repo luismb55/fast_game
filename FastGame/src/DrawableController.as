@@ -35,10 +35,6 @@ package
 		
 		private function update(e:Event):void
 		{
-			if (countEnemies() < 6)
-			{
-				addDrawable(new Enemy0(drawables.length, gameStage));
-			}
 			drawables.forEach(function(x:Drawable, i:int, v:Vector.<Drawable>):void
 				{
 					if (x.isActive())

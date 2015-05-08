@@ -35,5 +35,36 @@ package
 		{
 			return true;
 		}
+		
+		public function getDirection():Point
+		{
+			return direction;
+		}
+		
+		public function setDirection(x:int, y:int):void
+		{
+			setDirectionX(x);
+			setDirectionY(y);
+		}
+		
+		public function setDirectionX(x:int):void
+		{
+			direction.x = x;
+		}
+		
+		public function setDirectionY(y:int):void
+		{
+			direction.y = y;
+		}
+		
+		public function getPosition():Point
+		{
+			return position;
+		}
+		
+		public function getStage():Stage
+		{
+			return gameStage;
+		}
 	}
 }
