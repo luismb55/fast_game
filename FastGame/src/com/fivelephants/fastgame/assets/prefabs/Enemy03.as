@@ -1,4 +1,4 @@
-package 
+package com.fivelephants.fastgame.assets.prefabs 
 {
 	import com.fivelephants.engine.GameObject;
 	

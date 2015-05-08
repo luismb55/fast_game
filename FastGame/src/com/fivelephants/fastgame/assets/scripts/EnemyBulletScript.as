@@ -1,4 +1,4 @@
-package 
+package com.fivelephants.fastgame.assets.scripts 
 {
 	import com.fivelephants.engine.components.MonoBehaviour;
 	import com.fivelephants.engine.components.SpriteRenderer;
@@ -33,8 +33,8 @@ package
 			}*/
 			
 			gameObject.transform.position = gameObject.transform.position.add(new Point(0.3,0.3));
-			//gameObject.transform.localPosition = gameObject.transform.position.add(new Point(0.3,0.3));
-			//gameObject.transform.rotation = gameObject.transform.rotation + 0.29;
+			gameObject.transform.localPosition = gameObject.transform.localPosition.add(new Point(0.3,0.3));
+			gameObject.transform.rotation = gameObject.transform.rotation + 0.29;
 			//trace("enemy bullet script update");
 		}
 		

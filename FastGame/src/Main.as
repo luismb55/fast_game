@@ -6,17 +6,21 @@ package
 	import com.fivelephants.engine.components.Animation;
 	import com.fivelephants.engine.components.SpriteRenderer;
 	import com.sibirjak.asdpc.treeview.TreeView;
-	import flash.geom.Point;
 	
 	import flash.display.DisplayObjectContainer;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	import flash.geom.Point;
 	import flash.ui.Multitouch;
 	import flash.ui.MultitouchInputMode;
 	
 	import org.as3commons.collections.framework.IDataProvider;
+	import com.fivelephants.fastgame.assets.prefabs.Enemy01;
+	import com.fivelephants.fastgame.assets.prefabs.Enemy02;
+	import com.fivelephants.fastgame.assets.prefabs.Enemy03;
+	import com.fivelephants.fastgame.assets.scripts.EnemyBulletScript;
 	
 	/**
 	 * ...
@@ -70,14 +74,14 @@ package
 			var enemy2:Enemy02 = new Enemy02();
 			enemy2.transform.position = new Point(300, 300);
 			enemy2.transform.rotation = 90;
-			//enemy2.addComponent(EnemyBulletScript);
+			enemy2.addComponent(EnemyBulletScript);
 			enemy2.transform.setParent(enemy1.transform);
 			
 			var enemy3:Enemy03 = new Enemy03();
 			enemy3.transform.position = new Point(450, 450);
 			enemy3.transform.rotation = 90;
 			enemy3.transform.setParent(enemy2.transform);
-			//enemy3.addComponent(EnemyBulletScript);
+			enemy3.addComponent(EnemyBulletScript);
 
 			//enemy2.addComponent(EnemyBulletScript);
 			

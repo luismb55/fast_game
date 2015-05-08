@@ -34,6 +34,11 @@ package com.fivelephants.engine.components
 			_localScale = new Point(1.0, 1.0);
 		}
 		
+		protected override function destroy():void
+		{
+			// TODO
+		}
+		
 		/** Set the parent of the transform. 
 		 * 
 		 * If true, the parent-relative position, scale and rotation is modified such that the object keeps the same world space position, rotation and scale as before.
@@ -43,7 +48,6 @@ package com.fivelephants.engine.components
 		{
 			_parent = p;
 			
-			// TODO child and siblins
 			_siblings.concat(_parent._children);
 			_parent._children.push(this);
 			
@@ -71,9 +75,14 @@ package com.fivelephants.engine.components
 			_position = value;
 			
 			// update local position
-			_localPosition = _parent != null ? _localPosition = _position.subtract(_parent._position) :_position
+			_localPosition = _parent != null ? _localPosition = _position.subtract(_parent._position) :_position;
+			
 			// update children position
-			//TODO			
+			var child:Transform;
+			for(var i:int = 0; i < _children.length; i++){
+				child = _children[i];	
+				child.position = _position.add(child._localPosition);
+			}	
 		}
 
 		public function get rotation():Number 
@@ -87,11 +96,11 @@ package com.fivelephants.engine.components
 			
 			// set rotation
 			_rotation = value;
+			
 			// update local rotation
 			_localRotation = _parent != null ? _rotation  - _parent._rotation : _rotation;
 			
-			// update children position
-			// update children rotation
+			// update children position and rotation
 			var child:Transform;
 			for(var i:int = 0; i < _children.length; i++){
 				child = _children[i];	
@@ -129,7 +138,7 @@ package com.fivelephants.engine.components
 			return _localPosition;
 		}
 		
-		public function set localPosition(value:Point):void 
+		final public function set localPosition(value:Point):void 
 		{
 			// set local position
 			_localPosition = value;
@@ -144,28 +153,6 @@ package com.fivelephants.engine.components
 				child = _children[i];
 				child.position = _position.add(child._localPosition);
 			}
-			
-			return;
-			
-			
-			//var delta:Point = value.subtract(_localPosition);
-			//_localPosition = value;
-		
-			if(_parent != null){
-				_position = _parent.position.add(_localPosition).add(value);//_localPosition.add(value);//value.subtract(_parent.position);
-				_localPosition = _localPosition.add(value);
-			}else
-				_position = value;
-			
-			
-			// update global position with setter
-			/*if(_parent != null)
-				_localPosition = _position.subtract(_parent._position);	
-			else
-				_localPosition = _position;*/
-			
-			
-			
 		}
 		
 		public function get localRotation():Number 
@@ -176,20 +163,8 @@ package com.fivelephants.engine.components
 		public function set localRotation(value:Number):void 
 		{
 			_localRotation = value;
-			
-			
 		}
-		
-		/*public function get localDirection():Point 
-		{
-			return _localDirection;
-		}
-		
-		public function set localDirection(value:Point):void 
-		{
-			_localDirection = value;
-		}*/
-		
+	
 		public function get localScale():Point 
 		{
 			return _localScale;
@@ -204,12 +179,6 @@ package com.fivelephants.engine.components
 		{
 			return _children;
 		}
-		
-		// when global changes, lcoal changes
-		
-		// TODO when local pos changed: update children pos
-		// TODO when local scale changed: update children scale and pos
-		// TODO when local rotation changed: update children rotation and pos
 		
 		/*childCount	The number of children the Transform has.
 		eulerAngles	The rotation as Euler angles in degrees.
